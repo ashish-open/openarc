@@ -15,12 +15,14 @@ import Login from "@/pages/Login";
 import Unauthorized from "@/pages/Unauthorized";
 
 // Dashboard pages
+import Overview from "@/pages/Overview";
 import Dashboard from "@/pages/Dashboard";
 import KycDashboard from "@/pages/KycDashboard";
 import RiskDashboard from "@/pages/RiskDashboard";
 import UsersList from "@/pages/UsersList";
 import UserDetails from "@/pages/UserDetails";
 import TicketsDashboard from "@/pages/TicketsDashboard";
+import TransactionsPage from "@/pages/TransactionsPage";
 import SettingsPage from "@/pages/SettingsPage";
 
 const queryClient = new QueryClient();
@@ -43,11 +45,13 @@ const App = () => (
                 <DashboardLayout />
               </ProtectedRoute>
             }>
-              <Route index element={<Dashboard />} />
+              <Route index element={<Overview />} />
+              <Route path="dashboard-old" element={<Dashboard />} />
               <Route path="kyc" element={<KycDashboard />} />
               <Route path="risk" element={<RiskDashboard />} />
               <Route path="users" element={<UsersList />} />
               <Route path="users/:userId" element={<UserDetails />} />
+              <Route path="transactions" element={<TransactionsPage />} />
               <Route path="tickets" element={<TicketsDashboard />} />
               <Route path="settings" element={
                 <ProtectedRoute requiredRole="admin">

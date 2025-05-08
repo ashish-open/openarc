@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft } from 'lucide-react';
+import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft, File, Activity, ListVideo } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -19,43 +19,75 @@ const DashboardLayout: React.FC = () => {
     navigate('/login');
   };
 
-  const menuItems = [
-    { 
-      name: 'Dashboard', 
-      path: '/dashboard', 
-      icon: LayoutDashboard, 
-      requiredRole: 'viewer' 
+  // Define menu items with sections
+  const sections = [
+    {
+      name: "Main",
+      items: [
+        { 
+          name: 'Overview', 
+          path: '/dashboard', 
+          icon: LayoutDashboard, 
+          requiredRole: 'viewer' 
+        },
+      ]
     },
-    { 
-      name: 'KYC Onboarding', 
-      path: '/dashboard/kyc', 
-      icon: LayoutDashboard, 
-      requiredRole: 'viewer' 
+    {
+      name: "KYC",
+      items: [
+        { 
+          name: 'Onboarding', 
+          path: '/dashboard/kyc', 
+          icon: File, 
+          requiredRole: 'viewer' 
+        },
+        { 
+          name: 'Users', 
+          path: '/dashboard/users', 
+          icon: Users, 
+          requiredRole: 'viewer' 
+        }
+      ]
     },
-    { 
-      name: 'Risk Monitoring', 
-      path: '/dashboard/risk', 
-      icon: AlertCircle, 
-      requiredRole: 'viewer' 
+    {
+      name: "Risk",
+      items: [
+        { 
+          name: 'Monitoring', 
+          path: '/dashboard/risk', 
+          icon: Activity, 
+          requiredRole: 'viewer' 
+        },
+        { 
+          name: 'Transactions', 
+          path: '/dashboard/transactions', 
+          icon: ListVideo, 
+          requiredRole: 'viewer' 
+        }
+      ]
     },
-    { 
-      name: 'Users', 
-      path: '/dashboard/users', 
-      icon: Users, 
-      requiredRole: 'viewer' 
+    {
+      name: "Support",
+      items: [
+        { 
+          name: 'Tickets', 
+          path: '/dashboard/tickets', 
+          icon: Ticket, 
+          requiredRole: 'viewer' 
+        }
+      ]
     },
-    { 
-      name: 'Tickets', 
-      path: '/dashboard/tickets', 
-      icon: Ticket, 
-      requiredRole: 'viewer' 
-    },
-    { 
-      name: 'Settings', 
-      path: '/dashboard/settings', 
-      icon: Settings, 
-      requiredRole: 'admin' 
-    },
+    {
+      name: "Administration",
+      items: [
+        { 
+          name: 'Settings', 
+          path: '/dashboard/settings', 
+          icon: Settings, 
+          requiredRole: 'admin' 
+        }
+      ]
+    }
   ];
 
   return (
@@ -74,25 +106,27 @@ const DashboardLayout: React.FC = () => {
               </Link>
             </div>
             <SidebarContent>
-              <SidebarGroup>
-                <SidebarGroupLabel className="text-rebecca-light">Navigation</SidebarGroupLabel>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {menuItems.map((item) => (
-                      checkUserAccess(item.requiredRole as any) && (
-                        <SidebarMenuItem key={item.path}>
-                          <SidebarMenuButton asChild>
-                            <Link to={item.path} className="flex items-center">
-                              <item.icon className="mr-2 h-5 w-5" />
-                              {!collapsed && <span>{item.name}</span>}
-                            </Link>
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      )
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </SidebarGroup>
+              {sections.map((section) => (
+                <SidebarGroup key={section.name}>
+                  <SidebarGroupLabel className="text-rebecca-light">{section.name}</SidebarGroupLabel>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      {section.items.map((item) => (
+                        checkUserAccess(item.requiredRole as any) && (
+                          <SidebarMenuItem key={item.path}>
+                            <SidebarMenuButton asChild>
+                              <Link to={item.path} className="flex items-center">
+                                <item.icon className="mr-2 h-5 w-5" />
+                                {!collapsed && <span>{item.name}</span>}
+                              </Link>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        )
+                      ))}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              ))}
             </SidebarContent>
             
             <div className="mt-auto p-4 border-t">
