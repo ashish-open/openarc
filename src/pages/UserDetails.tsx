@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,8 +9,51 @@ import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { ArrowLeft } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
+interface Document {
+  type: string;
+  status: string;
+  uploadedAt: string;
+  rejectionReason?: string; // Make rejectionReason optional
+}
+
+interface Transaction {
+  id: string;
+  amount: number;
+  type: string;
+  status: string;
+  date: string;
+}
+
+interface Alert {
+  id: string;
+  type: string;
+  date: string;
+  status: string;
+}
+
+interface RiskDataPoint {
+  date: string;
+  score: number;
+}
+
+interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  kycStatus: string;
+  riskLevel: string;
+  createdAt: string;
+  lastActivity: string;
+  country: string;
+  documents: Document[];
+  transactions: Transaction[];
+  riskData: RiskDataPoint[];
+  alerts: Alert[];
+}
+
 // Mock user data
-const mockUsers = {
+const mockUsers: Record<string, UserData> = {
   'U10001': {
     id: 'U10001',
     name: 'John Doe',
@@ -80,7 +122,7 @@ const UserDetails: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
 
-  const user = userId ? mockUsers[userId as keyof typeof mockUsers] : null;
+  const user = userId ? mockUsers[userId] : null;
 
   if (!user) {
     return (
@@ -199,7 +241,7 @@ const UserDetails: React.FC = () => {
               <CardTitle>KYC Documents</CardTitle>
             </CardHeader>
             <CardContent>
-              {user.documents.length > 0 ? (
+              {user && user.documents.length > 0 ? (
                 <div className="space-y-4">
                   {user.documents.map((doc, index) => (
                     <div key={index} className="p-4 border rounded-md">

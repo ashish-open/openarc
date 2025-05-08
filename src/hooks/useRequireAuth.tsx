@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth, UserRole } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
+export { UserRole };
+
 export const useRequireAuth = (requiredRole?: UserRole | UserRole[]) => {
   const { isAuthenticated, user, isLoading, checkUserAccess } = useAuth();
   const navigate = useNavigate();
