@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +20,7 @@ import KycDashboard from "@/pages/KycDashboard";
 import RiskDashboard from "@/pages/RiskDashboard";
 import UsersList from "@/pages/UsersList";
 import UserDetails from "@/pages/UserDetails";
+import CreateUser from "@/pages/CreateUser";
 import TicketsDashboard from "@/pages/TicketsDashboard";
 import TransactionsPage from "@/pages/TransactionsPage";
 import SettingsPage from "@/pages/SettingsPage";
@@ -50,6 +50,7 @@ const App = () => (
               <Route path="kyc" element={<KycDashboard />} />
               <Route path="risk" element={<RiskDashboard />} />
               <Route path="users" element={<UsersList />} />
+              <Route path="users/create" element={<CreateUser />} />
               <Route path="users/:userId" element={<UserDetails />} />
               <Route path="transactions" element={<TransactionsPage />} />
               <Route path="tickets" element={<TicketsDashboard />} />
