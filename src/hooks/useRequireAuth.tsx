@@ -1,10 +1,11 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, UserRole } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
+import type { UserRole } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
-export { UserRole };
+export type { UserRole };
 
 export const useRequireAuth = (requiredRole?: UserRole | UserRole[]) => {
   const { isAuthenticated, user, isLoading, checkUserAccess } = useAuth();
