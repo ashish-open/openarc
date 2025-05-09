@@ -38,32 +38,78 @@ const App = () => (
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            
-            {/* Protected dashboard routes */}
+            {/* Dashboard (Overview) route */}
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <DashboardLayout />
+                <DashboardLayout>
+                  <Overview />
+                </DashboardLayout>
               </ProtectedRoute>
-            }>
-              <Route index element={<Overview />} />
-              <Route path="dashboard-old" element={<Dashboard />} />
-              <Route path="kyc" element={<KycDashboard />} />
-              <Route path="risk" element={<RiskDashboard />} />
-              <Route path="users" element={<UsersList />} />
-              <Route path="users/create" element={<CreateUser />} />
-              <Route path="users/:userId" element={<UserDetails />} />
-              <Route path="transactions" element={<TransactionsPage />} />
-              <Route path="tickets" element={<TicketsDashboard />} />
-              <Route path="settings" element={
-                <ProtectedRoute requiredRole="admin">
+            } />
+            {/* KYC */}
+            <Route path="/kyc" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <KycDashboard />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            {/* Users */}
+            <Route path="/users" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <UsersList />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/users/create" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <CreateUser />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            <Route path="/users/:userId" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <UserDetails />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            {/* Risk */}
+            <Route path="/risk" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <RiskDashboard />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            {/* Transactions */}
+            <Route path="/transactions" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <TransactionsPage />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            {/* Tickets */}
+            <Route path="/tickets" element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <TicketsDashboard />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
+            {/* Settings */}
+            <Route path="/settings" element={
+              <ProtectedRoute requiredRole="admin">
+                <DashboardLayout>
                   <SettingsPage />
-                </ProtectedRoute>
-              } />
-            </Route>
-            
+                </DashboardLayout>
+              </ProtectedRoute>
+            } />
             {/* Redirect root to dashboard if authenticated, otherwise to login */}
             <Route path="/" element={<Login />} />
-            
             {/* Catch all */}
             <Route path="*" element={<Login />} />
           </Routes>

@@ -88,15 +88,15 @@ const KycDashboard: React.FC = () => {
       {/* Performance Metrics */}
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle className="flex justify-between items-center">
-            <span>Onboarding Performance</span>
+          <div className="flex justify-between items-center">
+            <h2 className="text-xl font-semibold">Onboarding Performance</h2>
             <Tabs value={activeTab} onValueChange={(value: PeriodType) => setActiveTab(value)} className="w-[300px]">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="daily">Daily</TabsTrigger>
                 <TabsTrigger value="monthly">Monthly</TabsTrigger>
               </TabsList>
             </Tabs>
-          </CardTitle>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="h-[400px]">
@@ -120,8 +120,8 @@ const KycDashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <Card>
           <CardHeader>
-            <CardTitle>KYC Status Distribution</CardTitle>
-            <CardDescription>Current period</CardDescription>
+            <h2 className="text-xl font-semibold">KYC Status Distribution</h2>
+            <p className="text-base text-muted-foreground">Current period</p>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
@@ -150,8 +150,8 @@ const KycDashboard: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Products</CardTitle>
-            <CardDescription>KYC status by product domain</CardDescription>
+            <h2 className="text-xl font-semibold">Products</h2>
+            <p className="text-base text-muted-foreground">KYC status by product domain</p>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">

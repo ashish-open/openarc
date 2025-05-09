@@ -204,7 +204,7 @@ const UserDetails: React.FC = () => {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard/users')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/users')}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-2xl font-bold">User Details</h1>
@@ -214,7 +214,7 @@ const UserDetails: React.FC = () => {
             <p>User not found.</p>
             <Button 
               className="mt-4"
-              onClick={() => navigate('/dashboard/users')}
+              onClick={() => navigate('/users')}
             >
               Back to Users
             </Button>
@@ -290,7 +290,7 @@ const UserDetails: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard/users')}>
+          <Button variant="ghost" size="icon" onClick={() => navigate('/users')}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <h1 className="text-2xl font-bold">User Details</h1>
@@ -342,7 +342,7 @@ const UserDetails: React.FC = () => {
       {/* KYC Documents Section */}
       <Card>
         <CardHeader>
-          <CardTitle>KYC Documents</CardTitle>
+          <h2 className="text-xl font-semibold">KYC Documents</h2>
         </CardHeader>
         <CardContent>
           {user && user.documents.length > 0 ? (
@@ -377,7 +377,7 @@ const UserDetails: React.FC = () => {
       {/* PG Section */}
       <Card>
         <CardHeader>
-          <CardTitle>PG</CardTitle>
+          <h2 className="text-xl font-semibold">PG</h2>
         </CardHeader>
         <CardContent>
           {pgData ? (
@@ -560,8 +560,8 @@ const UserDetails: React.FC = () => {
       {/* Risk Assessment Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Risk Assessment</CardTitle>
-          <CardDescription>Risk score history (0-100)</CardDescription>
+          <h2 className="text-xl font-semibold">Risk Assessment</h2>
+          <p className="text-base text-muted-foreground">Risk score history (0-100)</p>
         </CardHeader>
         <CardContent>
           <div className="h-80">
@@ -616,7 +616,7 @@ const UserDetails: React.FC = () => {
       {/* Recent Transactions Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Transactions</CardTitle>
+          <h2 className="text-xl font-semibold">Recent Transactions</h2>
         </CardHeader>
         <CardContent>
           {user.transactions.length > 0 ? (
@@ -658,7 +658,7 @@ const UserDetails: React.FC = () => {
       {/* Risk Alerts Section */}
       <Card>
         <CardHeader>
-          <CardTitle>Risk Alerts</CardTitle>
+          <h2 className="text-xl font-semibold">Risk Alerts</h2>
         </CardHeader>
         <CardContent>
           {user.alerts && user.alerts.length > 0 ? (

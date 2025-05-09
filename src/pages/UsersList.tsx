@@ -108,7 +108,7 @@ const UsersList: React.FC = () => {
                 <Button
                   variant="ghost" 
                   size="sm"
-                  onClick={() => navigate(`/dashboard/users/${user.id}`)}
+                  onClick={() => navigate(`/users/${user.id}`)}
                 >
                   View Details
                 </Button>
@@ -129,7 +129,7 @@ const UsersList: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Users</h1>
-        <Button onClick={() => navigate('/dashboard/users/create')} className="gap-2">
+        <Button onClick={() => navigate('/users/create')} className="gap-2">
           <Plus className="h-4 w-4" />
           Create User
         </Button>

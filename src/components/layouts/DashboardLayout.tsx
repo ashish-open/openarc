@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -7,11 +7,13 @@ import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft, File,
 import { useNavigate, Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import OpenArcLogo from '@/components/OpenArcLogo';
 
-const DashboardLayout: React.FC = () => {
+const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { user, logout, checkUserAccess } = useAuth();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -38,13 +40,13 @@ const DashboardLayout: React.FC = () => {
       items: [
         { 
           name: 'Onboarding', 
-          path: '/dashboard/kyc', 
+          path: '/kyc', 
           icon: File, 
           requiredRole: 'viewer' 
         },
         { 
           name: 'Users', 
-          path: '/dashboard/users', 
+          path: '/users', 
           icon: Users, 
           requiredRole: 'viewer' 
         }
@@ -56,13 +58,13 @@ const DashboardLayout: React.FC = () => {
       items: [
         { 
           name: 'Monitoring', 
-          path: '/dashboard/risk', 
+          path: '/risk', 
           icon: Activity, 
           requiredRole: 'viewer' 
         },
         { 
           name: 'Transactions', 
-          path: '/dashboard/transactions', 
+          path: '/transactions', 
           icon: ListVideo, 
           requiredRole: 'viewer' 
         }
@@ -74,7 +76,7 @@ const DashboardLayout: React.FC = () => {
       items: [
         { 
           name: 'Tickets', 
-          path: '/dashboard/tickets', 
+          path: '/tickets', 
           icon: Ticket, 
           requiredRole: 'viewer' 
         }
@@ -86,13 +88,18 @@ const DashboardLayout: React.FC = () => {
       items: [
         { 
           name: 'Settings', 
-          path: '/dashboard/settings', 
+          path: '/settings', 
           icon: Settings, 
           requiredRole: 'admin' 
         }
       ]
     }
   ];
+
+  // Flatten all items from all sections
+  const sidebarItems = sections
+    .filter(section => section.name !== 'Administration')
+    .flatMap(section => section.items.map(item => ({ ...item })));
 
   return (
     <SidebarProvider>
@@ -101,41 +108,31 @@ const DashboardLayout: React.FC = () => {
           <div className="h-full flex flex-col">
             <div className={`flex items-center justify-center p-4 ${collapsed ? 'px-0' : ''}`}>
               <Link to="/dashboard" className="flex items-center w-full justify-center">
-                <h1 className={`font-bold text-xl text-rebecca-dark transition-all duration-300 ${collapsed ? 'text-center w-full' : ''}`}>OpenArc</h1>
+                {collapsed ? (
+                  <OpenArcLogo width={48} height={48} />
+                ) : (
+                  <OpenArcLogo width={180} height={60} />
+                )}
               </Link>
             </div>
             <SidebarContent className="flex-1">
-              {sections.filter(section => section.name !== 'Administration').map((section) => (
-                <SidebarGroup key={section.name}>
-                  {!collapsed && (
-                    <SidebarGroupLabel className="text-rebecca-light pl-4 pt-2 pb-1 text-xs uppercase tracking-wider flex items-center gap-2">
-                      {section.icon && <section.icon className="h-4 w-4 mr-1" />}
-                      {section.name}
-                    </SidebarGroupLabel>
-                  )}
-                  {collapsed && (
-                    <SidebarGroupLabel className="flex items-center justify-center pt-2 pb-1">
-                      {section.icon && <section.icon className="h-5 w-5" />}
-                    </SidebarGroupLabel>
-                  )}
-                  <SidebarGroupContent>
-                    <SidebarMenu>
-                      {section.items.map((item) => (
-                        checkUserAccess(item.requiredRole as any) && (
-                          <SidebarMenuItem key={item.path} className={`my-1 ${collapsed ? 'flex justify-center' : ''}`}>
-                            <SidebarMenuButton asChild>
-                              <Link to={item.path} className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
-                                <item.icon className={`h-5 w-5 ${collapsed ? '' : 'mr-2'}`} />
-                                {!collapsed && <span>{item.name}</span>}
-                              </Link>
-                            </SidebarMenuButton>
-                          </SidebarMenuItem>
-                        )
-                      ))}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              ))}
+              <SidebarMenu>
+                {sidebarItems.map((item) => {
+                  const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+                  return (
+                    checkUserAccess(item.requiredRole as any) && (
+                      <SidebarMenuItem key={item.path} className={`my-1 ${collapsed ? 'flex justify-center' : ''}`}>
+                        <SidebarMenuButton asChild isActive={isActive}>
+                          <Link to={item.path} className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
+                            <item.icon className={`h-5 w-5 ${collapsed ? '' : 'mr-2'}`} fill={isActive ? '#663399' : 'none'} />
+                            {!collapsed && <span>{item.name}</span>}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    )
+                  );
+                })}
+              </SidebarMenu>
             </SidebarContent>
             {/* Settings and Logout at the bottom */}
             <div className={`mt-auto pt-4 pb-4 border-t flex flex-col gap-2 ${collapsed ? 'items-center pt-2 pb-2 border-t-0' : ''}`}>
@@ -200,7 +197,7 @@ const DashboardLayout: React.FC = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <Outlet />
+            {children ? children : <Outlet />}
           </div>
         </main>
       </div>

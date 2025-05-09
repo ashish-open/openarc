@@ -68,7 +68,7 @@ const Overview: React.FC = () => {
           </div>
           <div className="mt-4 flex justify-between items-center w-full">
             <p className="text-sm">Total: <span className="font-bold">341</span> verifications</p>
-            <Button variant="outline" onClick={() => navigate('/dashboard/kyc')} className="flex items-center gap-2">
+            <Button variant="outline" onClick={() => navigate('/kyc')} className="flex items-center gap-2">
               View Details <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
@@ -234,8 +234,8 @@ const Overview: React.FC = () => {
           {visibleWidgets.map(widget => (
             <Card key={widget.id}>
               <CardHeader>
-                <CardTitle>{widget.title}</CardTitle>
-                <CardDescription>{widget.description}</CardDescription>
+                <h2 className="text-xl font-semibold">{widget.title}</h2>
+                <p className="text-base text-muted-foreground">{widget.description}</p>
               </CardHeader>
               <CardContent>
                 {widget.component}

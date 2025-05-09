@@ -108,8 +108,8 @@ const RiskDashboard: React.FC = () => {
       {/* Recent Alerts */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Risk Alerts</CardTitle>
-          <CardDescription>Latest alerts requiring attention</CardDescription>
+          <h2 className="text-xl font-semibold">Recent Risk Alerts</h2>
+          <p className="text-base text-muted-foreground">Latest alerts requiring attention</p>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -150,8 +150,8 @@ const RiskDashboard: React.FC = () => {
         <TabsContent value="trends" className="mt-4">
           <Card>
             <CardHeader>
-              <CardTitle>Risk Level Trends</CardTitle>
-              <CardDescription>Last 6 months</CardDescription>
+              <h2 className="text-xl font-semibold">Risk Level Trends</h2>
+              <p className="text-base text-muted-foreground">Last 6 months</p>
             </CardHeader>
             <CardContent>
               <div className="h-96">
@@ -178,8 +178,8 @@ const RiskDashboard: React.FC = () => {
         <TabsContent value="distribution" className="mt-4">
           <Card>
             <CardHeader>
-              <CardTitle>Current Risk Distribution</CardTitle>
-              <CardDescription>All active users</CardDescription>
+              <h2 className="text-xl font-semibold">Current Risk Distribution</h2>
+              <p className="text-base text-muted-foreground">All active users</p>
             </CardHeader>
             <CardContent>
               <div className="h-96 flex items-center justify-center">
@@ -211,8 +211,8 @@ const RiskDashboard: React.FC = () => {
         <TabsContent value="types" className="mt-4">
           <Card>
             <CardHeader>
-              <CardTitle>Alert Type Distribution</CardTitle>
-              <CardDescription>Last 30 days</CardDescription>
+              <h2 className="text-xl font-semibold">Alert Type Distribution</h2>
+              <p className="text-base text-muted-foreground">Last 30 days</p>
             </CardHeader>
             <CardContent>
               <div className="h-96">

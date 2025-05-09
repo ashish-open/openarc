@@ -35,8 +35,8 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-md font-medium">Total Users</CardTitle>
-            <CardDescription>Active accounts</CardDescription>
+            <h2 className="text-xl font-semibold">Total Users</h2>
+            <p className="text-base text-muted-foreground">Active accounts</p>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">1,284</div>
