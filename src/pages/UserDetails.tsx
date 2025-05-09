@@ -7,6 +7,12 @@ import { Separator } from '@/components/ui/separator';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { ArrowLeft } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import UserForm from '@/components/UserForm';
+import PGDetailsForm, { PGFormData } from '@/components/PGDetailsForm';
 
 interface Document {
   type: string;
@@ -41,6 +47,18 @@ interface UserData {
   email: string;
   phone: string;
   kycStatus: string;
+  onboardingStatus: 'verified' | 'blocked' | 'under_review';
+  website: string;
+  industry: string;
+  mcc: string;
+  businessModel: string;
+  useCase: string;
+  enabledServices: string[];
+  pgProviders: string[];
+  paymentMethodsEnabled: string[];
+  riskTags: string[];
+  fraudTransactionRatio: number;
+  chargebackRatio: number;
   riskLevel: string;
   createdAt: string;
   lastActivity: string;
@@ -59,6 +77,18 @@ const mockUsers: Record<string, UserData> = {
     email: 'john.doe@example.com',
     phone: '+1 555-123-4567',
     kycStatus: 'verified',
+    onboardingStatus: 'verified',
+    website: 'www.johndoe-store.com',
+    industry: 'E-commerce',
+    mcc: '5399',
+    businessModel: 'B2C Marketplace',
+    useCase: 'Online retail store selling electronics and accessories',
+    enabledServices: ['PG', 'Payout', 'API'],
+    pgProviders: ['HDFC', 'Atom', 'TPSL'],
+    paymentMethodsEnabled: ['Credit Card', 'Debit Card', 'UPI', 'Net Banking'],
+    riskTags: ['high-value-transactions', 'international-customers'],
+    fraudTransactionRatio: 0.001,
+    chargebackRatio: 0.003,
     riskLevel: 'low',
     createdAt: '2023-01-15',
     lastActivity: '2023-06-01',
@@ -88,6 +118,18 @@ const mockUsers: Record<string, UserData> = {
     email: 'emma.wilson@example.com',
     phone: '+61 555-987-6543',
     kycStatus: 'rejected',
+    onboardingStatus: 'blocked',
+    website: 'www.emmawilson-trading.com',
+    industry: 'Cryptocurrency',
+    mcc: '6051',
+    businessModel: 'Crypto Exchange',
+    useCase: 'Cryptocurrency trading platform with high-value transactions',
+    enabledServices: ['PG'],
+    pgProviders: ['HDFC'],
+    paymentMethodsEnabled: ['Credit Card', 'UPI'],
+    riskTags: ['high-risk-industry', 'multiple-chargebacks', 'suspicious-patterns'],
+    fraudTransactionRatio: 0.015,
+    chargebackRatio: 0.025,
     riskLevel: 'high',
     createdAt: '2023-02-10',
     lastActivity: '2023-06-03',
@@ -120,13 +162,43 @@ const UserDetails: React.FC = () => {
   useRequireAuth('viewer');
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-
-  // PG section state
+  const [isEditing, setIsEditing] = useState(false);
   const [pgData, setPgData] = useState<null | { merchantId: string; businessName: string; status: string }>(null);
   const [showPgForm, setShowPgForm] = useState(false);
   const [pgForm, setPgForm] = useState({ merchantId: '', businessName: '', status: '' });
+  const [newRiskTag, setNewRiskTag] = useState('');
 
   const user = userId ? mockUsers[userId] : null;
+
+  const handleEditSubmit = (data: Partial<UserData>) => {
+    // Here you would typically make an API call to update the user
+    console.log('Updating user:', data);
+    // For now, just update the mock data
+    if (userId) {
+      mockUsers[userId] = {
+        ...mockUsers[userId],
+        ...data,
+      };
+      setIsEditing(false);
+    }
+  };
+
+  const handlePGSave = (data: PGFormData) => {
+    setPgData({
+      merchantId: data.merchantId,
+      businessName: data.businessName,
+      status: data.status,
+    });
+  };
+
+  const handlePGSaveAndSend = (data: PGFormData) => {
+    // First save the data
+    handlePGSave(data);
+    
+    // Then create a Freshdesk ticket
+    // This would typically be an API call to your backend
+    console.log('Creating Freshdesk ticket for PG integration:', data);
+  };
 
   if (!user) {
     return (
@@ -148,6 +220,29 @@ const UserDetails: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  if (isEditing) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={() => setIsEditing(false)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <h1 className="text-2xl font-bold">Edit User</h1>
+          </div>
+          <Button variant="outline" onClick={() => setIsEditing(false)}>
+            Cancel
+          </Button>
+        </div>
+        <UserForm
+          initialData={user}
+          onSubmit={handleEditSubmit}
+          isEditing={true}
+        />
       </div>
     );
   }
@@ -178,13 +273,31 @@ const UserDetails: React.FC = () => {
     }
   };
 
+  const getOnboardingStatusBadge = (status: string) => {
+    switch (status) {
+      case 'verified':
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100"><CheckCircle className="w-3 h-3 mr-1" />Verified</Badge>;
+      case 'blocked':
+        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100"><AlertCircle className="w-3 h-3 mr-1" />Blocked</Badge>;
+      case 'under_review':
+        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100"><Clock className="w-3 h-3 mr-1" />Under Review</Badge>;
+      default:
+        return <Badge>Unknown</Badge>;
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard/users')}>
-          <ArrowLeft className="h-4 w-4" />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard/users')}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-2xl font-bold">User Details</h1>
+        </div>
+        <Button onClick={() => setIsEditing(true)}>
+          Edit User
         </Button>
-        <h1 className="text-2xl font-bold">User Details</h1>
       </div>
 
       <Card>
@@ -197,11 +310,6 @@ const UserDetails: React.FC = () => {
                 {getRiskBadge(user.riskLevel)}
               </CardTitle>
               <CardDescription>{user.email}</CardDescription>
-            </div>
-            <div className="mt-2 md:mt-0">
-              <Button variant="outline">
-                Edit User
-              </Button>
             </div>
           </div>
         </CardHeader>
@@ -273,65 +381,179 @@ const UserDetails: React.FC = () => {
         </CardHeader>
         <CardContent>
           {pgData ? (
-            <div className="space-y-2">
-              <div className="flex justify-between">
-                <span className="font-medium">Merchant ID:</span>
-                <span>{pgData.merchantId}</span>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-medium">Merchant ID:</span>
+                  <span>{pgData.merchantId}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Business Name:</span>
+                  <span>{pgData.businessName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Status:</span>
+                  <span>{pgData.status}</span>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Business Name:</span>
-                <span>{pgData.businessName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-medium">Status:</span>
-                <span>{pgData.status}</span>
+              <div className="flex justify-end">
+                <PGDetailsForm
+                  initialData={pgData}
+                  onSave={handlePGSave}
+                  onSaveAndSend={handlePGSaveAndSend}
+                />
               </div>
             </div>
-          ) : showPgForm ? (
-            <form
-              className="space-y-4 max-w-md mx-auto"
-              onSubmit={e => {
-                e.preventDefault();
-                setPgData(pgForm);
-                setShowPgForm(false);
-              }}
-            >
-              <div>
-                <label className="block text-sm font-medium mb-1">Merchant ID</label>
-                <input
-                  className="w-full border rounded px-3 py-2"
-                  value={pgForm.merchantId}
-                  onChange={e => setPgForm(f => ({ ...f, merchantId: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Business Name</label>
-                <input
-                  className="w-full border rounded px-3 py-2"
-                  value={pgForm.businessName}
-                  onChange={e => setPgForm(f => ({ ...f, businessName: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Status</label>
-                <input
-                  className="w-full border rounded px-3 py-2"
-                  value={pgForm.status}
-                  onChange={e => setPgForm(f => ({ ...f, status: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="flex justify-center">
-                <Button type="submit">Submit</Button>
-              </div>
-            </form>
           ) : (
             <div className="flex justify-center">
-              <Button onClick={() => setShowPgForm(true)}>Add PG Details</Button>
+              <PGDetailsForm
+                onSave={handlePGSave}
+                onSaveAndSend={handlePGSaveAndSend}
+              />
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Business Details Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Business Details</CardTitle>
+          <CardDescription>Business information and enabled services</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Onboarding Status</h3>
+                {getOnboardingStatusBadge(user.onboardingStatus)}
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Website</h3>
+                <p>{user.website}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Industry</h3>
+                <p>{user.industry}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">MCC</h3>
+                <p>{user.mcc}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Business Model</h3>
+                <p>{user.businessModel}</p>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Use Case</h3>
+                <p className="text-sm text-gray-600">{user.useCase}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Enabled Services</h3>
+                <div className="flex flex-wrap gap-2">
+                  {user.enabledServices.map((service) => (
+                    <Badge key={service} variant="secondary">{service}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">PG Providers</h3>
+                <div className="flex flex-wrap gap-2">
+                  {user.pgProviders.map((provider) => (
+                    <Badge key={provider} variant="outline">{provider}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Payment Methods</h3>
+                <div className="flex flex-wrap gap-2">
+                  {user.paymentMethodsEnabled.map((method) => (
+                    <Badge key={method} variant="secondary">{method}</Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Risk Metrics Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Risk Metrics</CardTitle>
+          <CardDescription>Risk assessment and monitoring metrics</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Risk Tags</h3>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {user.riskTags.map((tag) => (
+                    <Badge key={tag} variant="destructive" className="bg-red-100 text-red-800 hover:bg-red-200">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Add new risk tag"
+                    value={newRiskTag}
+                    onChange={(e) => setNewRiskTag(e.target.value)}
+                    className="max-w-[200px]"
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      if (newRiskTag && !user.riskTags.includes(newRiskTag)) {
+                        user.riskTags.push(newRiskTag);
+                        setNewRiskTag('');
+                      }
+                    }}
+                  >
+                    Add
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Fraud Transaction Ratio</h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-red-600 h-2.5 rounded-full"
+                      style={{ width: `${Math.min(user.fraudTransactionRatio * 100, 100)}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm">{(user.fraudTransactionRatio * 100).toFixed(2)}%</span>
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-1">Chargeback Ratio</h3>
+                <div className="flex items-center gap-2">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="bg-orange-600 h-2.5 rounded-full"
+                      style={{ width: `${Math.min(user.chargebackRatio * 100, 100)}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm">{(user.chargebackRatio * 100).toFixed(2)}%</span>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-1">Risk Assessment Factors</h3>
+                <ul className="list-disc list-inside space-y-1 text-sm">
+                  <li>Industry Risk: {user.industry === 'Cryptocurrency' ? 'High' : 'Medium'}</li>
+                  <li>Transaction Volume: {user.transactions.length > 10 ? 'High' : 'Low'}</li>
+                  <li>Geographical Risk: {user.country === 'United States' ? 'Low' : 'Medium'}</li>
+                  <li>Business Model Risk: {user.businessModel.includes('Crypto') ? 'High' : 'Low'}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
