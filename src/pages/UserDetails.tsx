@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -122,6 +121,11 @@ const UserDetails: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
 
+  // PG section state
+  const [pgData, setPgData] = useState<null | { merchantId: string; businessName: string; status: string }>(null);
+  const [showPgForm, setShowPgForm] = useState(false);
+  const [pgForm, setPgForm] = useState({ merchantId: '', businessName: '', status: '' });
+
   const user = userId ? mockUsers[userId] : null;
 
   if (!user) {
@@ -227,178 +231,234 @@ const UserDetails: React.FC = () => {
         </CardContent>
       </Card>
 
-      <Tabs defaultValue="kyc" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="kyc">KYC</TabsTrigger>
-          <TabsTrigger value="risk">Risk</TabsTrigger>
-          <TabsTrigger value="transactions">Transactions</TabsTrigger>
-          <TabsTrigger value="alerts">Alerts</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="kyc" className="mt-4 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>KYC Documents</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {user && user.documents.length > 0 ? (
-                <div className="space-y-4">
-                  {user.documents.map((doc, index) => (
-                    <div key={index} className="p-4 border rounded-md">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-medium">{doc.type}</h3>
-                          <p className="text-sm text-gray-500">Uploaded on: {doc.uploadedAt}</p>
-                        </div>
-                        <div>
-                          {doc.status === 'verified' && <Badge className="bg-green-100 text-green-800">Verified</Badge>}
-                          {doc.status === 'rejected' && <Badge className="bg-red-100 text-red-800">Rejected</Badge>}
-                          {doc.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
-                        </div>
-                      </div>
-                      {doc.rejectionReason && (
-                        <div className="mt-2 text-sm text-red-600">
-                          <p><strong>Rejection reason:</strong> {doc.rejectionReason}</p>
-                        </div>
-                      )}
+      {/* KYC Documents Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>KYC Documents</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {user && user.documents.length > 0 ? (
+            <div className="space-y-4">
+              {user.documents.map((doc, index) => (
+                <div key={index} className="p-4 border rounded-md">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-medium">{doc.type}</h3>
+                      <p className="text-sm text-gray-500">Uploaded on: {doc.uploadedAt}</p>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500">No KYC documents available.</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="risk" className="mt-4 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Risk Assessment</CardTitle>
-              <CardDescription>Risk score history (0-100)</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={user.riskData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis domain={[0, 100]} />
-                    <Tooltip />
-                    <Legend />
-                    <Line 
-                      type="monotone" 
-                      dataKey="score" 
-                      stroke="#663399" 
-                      strokeWidth={2}
-                      activeDot={{ r: 8 }} 
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-6">
-                <h3 className="text-sm font-medium mb-2">Risk Factors</h3>
-                <ul className="list-disc list-inside space-y-1">
-                  {user.riskLevel === 'high' && (
-                    <>
-                      <li>Multiple login attempts from unusual locations</li>
-                      <li>Large transactions flagged for review</li>
-                      <li>Failed document verification</li>
-                    </>
-                  )}
-                  {user.riskLevel === 'medium' && (
-                    <>
-                      <li>Some activity from unusual locations</li>
-                      <li>Transaction patterns require monitoring</li>
-                    </>
-                  )}
-                  {user.riskLevel === 'low' && (
-                    <>
-                      <li>Normal activity patterns</li>
-                      <li>Fully verified identity</li>
-                      <li>Consistent transaction behavior</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="transactions" className="mt-4 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Transactions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {user.transactions.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="pb-2 font-medium text-left">ID</th>
-                        <th className="pb-2 font-medium text-left">Amount</th>
-                        <th className="pb-2 font-medium text-left">Type</th>
-                        <th className="pb-2 font-medium text-left">Status</th>
-                        <th className="pb-2 font-medium text-left">Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {user.transactions.map((tx) => (
-                        <tr key={tx.id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3">{tx.id}</td>
-                          <td className="py-3">${tx.amount}</td>
-                          <td className="py-3 capitalize">{tx.type}</td>
-                          <td className="py-3">
-                            {tx.status === 'completed' && <Badge className="bg-green-100 text-green-800">Completed</Badge>}
-                            {tx.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
-                            {tx.status === 'flagged' && <Badge className="bg-orange-100 text-orange-800">Flagged</Badge>}
-                            {tx.status === 'declined' && <Badge className="bg-red-100 text-red-800">Declined</Badge>}
-                          </td>
-                          <td className="py-3">{tx.date}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <p className="text-gray-500">No transaction history available.</p>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="alerts" className="mt-4 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Risk Alerts</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {user.alerts && user.alerts.length > 0 ? (
-                <div className="space-y-4">
-                  {user.alerts.map((alert) => (
-                    <div key={alert.id} className="p-4 border rounded-md flex justify-between items-start">
-                      <div>
-                        <h3 className="font-medium">{alert.type}</h3>
-                        <p className="text-sm text-gray-500">Date: {alert.date}</p>
-                      </div>
-                      <div>
-                        {alert.status === 'open' && <Badge className="bg-yellow-100 text-yellow-800">Open</Badge>}
-                        {alert.status === 'resolved' && <Badge className="bg-green-100 text-green-800">Resolved</Badge>}
-                      </div>
+                    <div>
+                      {doc.status === 'verified' && <Badge className="bg-green-100 text-green-800">Verified</Badge>}
+                      {doc.status === 'rejected' && <Badge className="bg-red-100 text-red-800">Rejected</Badge>}
+                      {doc.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
                     </div>
-                  ))}
+                  </div>
+                  {doc.rejectionReason && (
+                    <div className="mt-2 text-sm text-red-600">
+                      <p><strong>Rejection reason:</strong> {doc.rejectionReason}</p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <p className="text-gray-500">No risk alerts for this user.</p>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">No KYC documents available.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* PG Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>PG</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {pgData ? (
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <span className="font-medium">Merchant ID:</span>
+                <span>{pgData.merchantId}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Business Name:</span>
+                <span>{pgData.businessName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Status:</span>
+                <span>{pgData.status}</span>
+              </div>
+            </div>
+          ) : showPgForm ? (
+            <form
+              className="space-y-4 max-w-md mx-auto"
+              onSubmit={e => {
+                e.preventDefault();
+                setPgData(pgForm);
+                setShowPgForm(false);
+              }}
+            >
+              <div>
+                <label className="block text-sm font-medium mb-1">Merchant ID</label>
+                <input
+                  className="w-full border rounded px-3 py-2"
+                  value={pgForm.merchantId}
+                  onChange={e => setPgForm(f => ({ ...f, merchantId: e.target.value }))}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Business Name</label>
+                <input
+                  className="w-full border rounded px-3 py-2"
+                  value={pgForm.businessName}
+                  onChange={e => setPgForm(f => ({ ...f, businessName: e.target.value }))}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Status</label>
+                <input
+                  className="w-full border rounded px-3 py-2"
+                  value={pgForm.status}
+                  onChange={e => setPgForm(f => ({ ...f, status: e.target.value }))}
+                  required
+                />
+              </div>
+              <div className="flex justify-center">
+                <Button type="submit">Submit</Button>
+              </div>
+            </form>
+          ) : (
+            <div className="flex justify-center">
+              <Button onClick={() => setShowPgForm(true)}>Add PG Details</Button>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Risk Assessment Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Risk Assessment</CardTitle>
+          <CardDescription>Risk score history (0-100)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={user.riskData}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis domain={[0, 100]} />
+                <Tooltip />
+                <Legend />
+                <Line 
+                  type="monotone" 
+                  dataKey="score" 
+                  stroke="#663399" 
+                  strokeWidth={2}
+                  activeDot={{ r: 8 }} 
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-6">
+            <h3 className="text-sm font-medium mb-2">Risk Factors</h3>
+            <ul className="list-disc list-inside space-y-1">
+              {user.riskLevel === 'high' && (
+                <>
+                  <li>Multiple login attempts from unusual locations</li>
+                  <li>Large transactions flagged for review</li>
+                  <li>Failed document verification</li>
+                </>
               )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              {user.riskLevel === 'medium' && (
+                <>
+                  <li>Some activity from unusual locations</li>
+                  <li>Transaction patterns require monitoring</li>
+                </>
+              )}
+              {user.riskLevel === 'low' && (
+                <>
+                  <li>Normal activity patterns</li>
+                  <li>Fully verified identity</li>
+                  <li>Consistent transaction behavior</li>
+                </>
+              )}
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Recent Transactions Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Transactions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {user.transactions.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="pb-2 font-medium text-left">ID</th>
+                    <th className="pb-2 font-medium text-left">Amount</th>
+                    <th className="pb-2 font-medium text-left">Type</th>
+                    <th className="pb-2 font-medium text-left">Status</th>
+                    <th className="pb-2 font-medium text-left">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {user.transactions.map((tx) => (
+                    <tr key={tx.id} className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="py-3">{tx.id}</td>
+                      <td className="py-3">${tx.amount}</td>
+                      <td className="py-3 capitalize">{tx.type}</td>
+                      <td className="py-3">
+                        {tx.status === 'completed' && <Badge className="bg-green-100 text-green-800">Completed</Badge>}
+                        {tx.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
+                        {tx.status === 'flagged' && <Badge className="bg-orange-100 text-orange-800">Flagged</Badge>}
+                        {tx.status === 'declined' && <Badge className="bg-red-100 text-red-800">Declined</Badge>}
+                      </td>
+                      <td className="py-3">{tx.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-gray-500">No transaction history available.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Risk Alerts Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Risk Alerts</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {user.alerts && user.alerts.length > 0 ? (
+            <div className="space-y-4">
+              {user.alerts.map((alert) => (
+                <div key={alert.id} className="p-4 border rounded-md flex justify-between items-start">
+                  <div>
+                    <h3 className="font-medium">{alert.type}</h3>
+                    <p className="text-sm text-gray-500">Date: {alert.date}</p>
+                  </div>
+                  <div>
+                    {alert.status === 'open' && <Badge className="bg-yellow-100 text-yellow-800">Open</Badge>}
+                    {alert.status === 'resolved' && <Badge className="bg-green-100 text-green-800">Resolved</Badge>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">No risk alerts for this user.</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

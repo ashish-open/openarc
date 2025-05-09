@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -55,18 +54,20 @@ const Overview: React.FC = () => {
       visible: true,
       permissions: ['super-admin', 'admin', 'viewer'],
       component: (
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <ReChart data={kycData} margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
-            </ReChart>
-          </ResponsiveContainer>
-          <div className="mt-4 flex justify-between">
-            <p>Total: <span className="font-bold">341</span> verifications</p>
+        <div className="h-80 flex flex-col justify-between">
+          <div className="flex-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <ReChart data={kycData} margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="value" stroke="#8884d8" activeDot={{ r: 8 }} />
+              </ReChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 flex justify-between items-center w-full">
+            <p className="text-sm">Total: <span className="font-bold">341</span> verifications</p>
             <Button variant="outline" onClick={() => navigate('/dashboard/kyc')} className="flex items-center gap-2">
               View Details <ArrowRight className="h-4 w-4" />
             </Button>
@@ -155,18 +156,20 @@ const Overview: React.FC = () => {
       visible: true,
       permissions: ['super-admin', 'admin'],
       component: (
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <ReChart data={riskData} margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="value" stroke="#82ca9d" activeDot={{ r: 8 }} />
-            </ReChart>
-          </ResponsiveContainer>
-          <div className="mt-4 flex justify-between">
-            <p>Total Active: <span className="font-bold">133</span> users</p>
+        <div className="h-80 flex flex-col justify-between">
+          <div className="flex-1">
+            <ResponsiveContainer width="100%" height="100%">
+              <ReChart data={riskData} margin={{ top: 5, right: 20, left: 5, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="value" stroke="#82ca9d" activeDot={{ r: 8 }} />
+              </ReChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 flex justify-between items-center w-full">
+            <p className="text-sm">Total Active: <span className="font-bold">133</span> users</p>
             <Button variant="outline" onClick={() => navigate('/dashboard/users')} className="flex items-center gap-2">
               View Users <ArrowRight className="h-4 w-4" />
             </Button>
@@ -192,7 +195,7 @@ const Overview: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Dashboard Overview</h1>
+        <h1 className="text-2xl font-bold">OpenArc Overview</h1>
         {user?.role === 'super-admin' && (
           <Button onClick={() => setEditMode(!editMode)}>
             {editMode ? 'Save Layout' : 'Customize Dashboard'}

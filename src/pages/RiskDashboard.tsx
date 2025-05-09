@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
@@ -59,7 +58,7 @@ const RiskDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Risk Monitoring Dashboard</h1>
+        <h1 className="text-2xl font-bold">OpenArc Risk Monitoring</h1>
       </div>
 
       {/* KPI Summary */}

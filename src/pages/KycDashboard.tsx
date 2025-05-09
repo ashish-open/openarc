@@ -53,7 +53,7 @@ const KycDashboard: React.FC = () => {
     <div className="space-y-6">
       {/* Header with Date Range Picker */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">KYC Onboarding Analytics</h1>
+        <h1 className="text-2xl font-bold">OpenArc Analytics</h1>
         <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       </div>
 
@@ -150,7 +150,7 @@ const KycDashboard: React.FC = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Domain Distribution</CardTitle>
+            <CardTitle>Products</CardTitle>
             <CardDescription>KYC status by product domain</CardDescription>
           </CardHeader>
           <CardContent>
