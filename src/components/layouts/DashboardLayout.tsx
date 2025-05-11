@@ -140,7 +140,7 @@ const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children })
                 <SidebarMenu>
                   <SidebarMenuItem className={collapsed ? 'flex justify-center' : ''}>
                     <SidebarMenuButton asChild>
-                      <Link to="/dashboard/settings" className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
+                      <Link to="/settings" className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
                         <Settings className="h-5 w-5" />
                         {!collapsed && <span className="ml-2">Settings</span>}
                       </Link>
