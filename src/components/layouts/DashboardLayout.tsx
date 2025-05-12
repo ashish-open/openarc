@@ -3,13 +3,13 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft, File, Activity, ListVideo, Home, IdCard, ShieldAlert, LifeBuoy } from 'lucide-react';
+import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft, File, Activity, ListVideo, Home, IdCard, ShieldAlert, LifeBuoy, CreditCard } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import OpenArcLogo from '@/components/OpenArcLogo';
 
-const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+const DashboardLayout: React.FC = () => {
   const { user, logout, checkUserAccess } = useAuth();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
@@ -71,6 +71,18 @@ const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children })
       ]
     },
     {
+      name: "Payments",
+      icon: null,
+      items: [
+        {
+          name: 'Payment Gateway',
+          path: '/payment-gateway',
+          icon: CreditCard,
+          requiredRole: 'viewer' 
+        }
+      ]
+    },
+    {
       name: "Support",
       icon: LifeBuoy,
       items: [
@@ -102,9 +114,9 @@ const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children })
     .flatMap(section => section.items.map(item => ({ ...item })));
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
-        <Sidebar className={collapsed ? 'w-16 transition-all duration-300' : 'w-64 transition-all duration-300'}>
+        <Sidebar variant="sidebar" collapsible="icon">
           <div className="h-full flex flex-col">
             <div className={`flex items-center justify-center p-4 ${collapsed ? 'px-0' : ''}`}>
               <Link to="/dashboard" className="flex items-center w-full justify-center">
@@ -124,7 +136,7 @@ const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children })
                       <SidebarMenuItem key={item.path} className={`my-1 ${collapsed ? 'flex justify-center' : ''}`}>
                         <SidebarMenuButton asChild isActive={isActive}>
                           <Link to={item.path} className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
-                            <item.icon className={`h-5 w-5 ${collapsed ? '' : 'mr-2'}`} fill={isActive ? '#663399' : 'none'} />
+                            {item.icon && <item.icon className={`h-5 w-5 ${collapsed ? '' : 'mr-2'}`} fill={isActive ? '#663399' : 'none'} />}
                             {!collapsed && <span>{item.name}</span>}
                           </Link>
                         </SidebarMenuButton>
@@ -152,54 +164,18 @@ const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children })
                 <SidebarMenuItem className={collapsed ? 'flex justify-center' : ''}>
                   <SidebarMenuButton asChild>
                     <button onClick={handleLogout} className={`flex items-center w-full px-2 py-2 rounded-md transition-colors duration-200 hover:bg-rebecca-light/10 ${collapsed ? 'justify-center' : 'pl-4'}`}>
-                      <AlertCircle className="h-5 w-5" />
+                      <ArrowLeft className="h-5 w-5" />
                       {!collapsed && <span className="ml-2">Logout</span>}
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               </SidebarMenu>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => setCollapsed(!collapsed)}
-                className={`mt-2 ${collapsed ? 'mx-auto' : 'ml-auto'}`}
-                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-              >
-                <ArrowLeft className={`h-4 w-4 transition-transform ${collapsed ? 'rotate-180' : ''}`} />
-              </Button>
             </div>
           </div>
         </Sidebar>
-        <main className="flex-1">
-          <div className="container mx-auto px-4 py-6 animate-fade-in flex flex-col">
-            {/* User profile dropdown at the top right */}
-            <div className="flex justify-end mb-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center">
-                    <Avatar className="h-8 w-8 mr-2 bg-rebecca-dark">
-                      <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-left hidden md:block">
-                      <p className="text-sm font-medium">{user?.name}</p>
-                      <p className="text-xs text-muted-foreground capitalize">{user?.role}</p>
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem onClick={() => navigate('/dashboard/profile')}>
-                    Profile
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            {children ? children : <Outlet />}
+        <div className="flex-1 p-4">
+          <Outlet />
           </div>
-        </main>
       </div>
     </SidebarProvider>
   );
