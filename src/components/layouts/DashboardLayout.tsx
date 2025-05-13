@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, SidebarHeader } from '@/components/ui/sidebar';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { LayoutDashboard, Users, AlertCircle, Ticket, Settings, ArrowLeft, File, Activity, ListVideo, Home, IdCard, ShieldAlert, LifeBuoy, CreditCard } from 'lucide-react';
@@ -118,15 +118,9 @@ const DashboardLayout: React.FC = () => {
       <div className="min-h-screen flex w-full">
         <Sidebar variant="sidebar" collapsible="icon">
           <div className="h-full flex flex-col">
-            <div className={`flex items-center justify-center p-4 ${collapsed ? 'px-0' : ''}`}>
-              <Link to="/dashboard" className="flex items-center w-full justify-center">
-                {collapsed ? (
-                  <OpenArcLogo width={48} height={48} />
-                ) : (
-                  <OpenArcLogo width={180} height={60} />
-                )}
-              </Link>
-            </div>
+            <SidebarHeader>
+              <OpenArcLogo className="w-32" />
+            </SidebarHeader>
             <SidebarContent className="flex-1">
               <SidebarMenu>
                 {sidebarItems.map((item) => {
