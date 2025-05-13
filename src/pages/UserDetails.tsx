@@ -339,82 +339,6 @@ const UserDetails: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* KYC Documents Section */}
-      <Card>
-        <CardHeader>
-          <h2 className="text-xl font-semibold">KYC Documents</h2>
-        </CardHeader>
-        <CardContent>
-          {user && user.documents.length > 0 ? (
-            <div className="space-y-4">
-              {user.documents.map((doc, index) => (
-                <div key={index} className="p-4 border rounded-md">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-medium">{doc.type}</h3>
-                      <p className="text-sm text-gray-500">Uploaded on: {doc.uploadedAt}</p>
-                    </div>
-                    <div>
-                      {doc.status === 'verified' && <Badge className="bg-green-100 text-green-800">Verified</Badge>}
-                      {doc.status === 'rejected' && <Badge className="bg-red-100 text-red-800">Rejected</Badge>}
-                      {doc.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
-                    </div>
-                  </div>
-                  {doc.rejectionReason && (
-                    <div className="mt-2 text-sm text-red-600">
-                      <p><strong>Rejection reason:</strong> {doc.rejectionReason}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500">No KYC documents available.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* PG Section */}
-      <Card>
-        <CardHeader>
-          <h2 className="text-xl font-semibold">PG</h2>
-        </CardHeader>
-        <CardContent>
-          {pgData ? (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="font-medium">Merchant ID:</span>
-                  <span>{pgData.merchantId}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Business Name:</span>
-                  <span>{pgData.businessName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Status:</span>
-                  <span>{pgData.status}</span>
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <PGDetailsForm
-                  initialData={pgData}
-                  onSave={handlePGSave}
-                  onSaveAndSend={handlePGSaveAndSend}
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <PGDetailsForm
-                onSave={handlePGSave}
-                onSaveAndSend={handlePGSaveAndSend}
-              />
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
       {/* Business Details Section */}
       <Card>
         <CardHeader>
@@ -451,44 +375,6 @@ const UserDetails: React.FC = () => {
                 <p className="text-sm text-gray-600">{user.useCase}</p>
               </div>
               <div>
-                <h3 className="text-sm font-medium mb-1">Enabled Services</h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.enabledServices.map((service) => (
-                    <Badge key={service} variant="secondary">{service}</Badge>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium mb-1">PG Providers</h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.pgProviders.map((provider) => (
-                    <Badge key={provider} variant="outline">{provider}</Badge>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-sm font-medium mb-1">Payment Methods</h3>
-                <div className="flex flex-wrap gap-2">
-                  {user.paymentMethodsEnabled.map((method) => (
-                    <Badge key={method} variant="secondary">{method}</Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Risk Metrics Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Risk Metrics</CardTitle>
-          <CardDescription>Risk assessment and monitoring metrics</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div>
                 <h3 className="text-sm font-medium mb-1">Risk Tags</h3>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {user.riskTags.map((tag) => (
@@ -517,6 +403,90 @@ const UserDetails: React.FC = () => {
                   </Button>
                 </div>
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* KYC Documents Section */}
+      <Card>
+        <CardHeader>
+          <h2 className="text-xl font-semibold">KYC Documents</h2>
+        </CardHeader>
+        <CardContent>
+          {user && user.documents.length > 0 ? (
+            <div className="space-y-4">
+              {user.documents.map((doc, index) => (
+                <div key={index} className="p-4 border rounded-md">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-medium">{doc.type}</h3>
+                      <p className="text-sm text-gray-500">Uploaded on: {doc.uploadedAt}</p>
+                    </div>
+                    <div>
+                      {doc.status === 'verified' && <Badge className="bg-green-100 text-green-800">Verified</Badge>}
+                      {doc.status === 'rejected' && <Badge className="bg-red-100 text-red-800">Rejected</Badge>}
+                      {doc.status === 'pending' && <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>}
+                    </div>
+                  </div>
+                  {doc.rejectionReason && (
+                    <div className="mt-2 text-sm text-red-600">
+                      <p><strong>Rejection reason:</strong> {doc.rejectionReason}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">No KYC documents available.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Integrations Section */}
+      <Card>
+        <CardHeader>
+          <h2 className="text-xl font-semibold">Integrations</h2>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-medium mb-2">Enabled Services</h3>
+              <div className="flex flex-wrap gap-2">
+                {user.enabledServices.map((service) => (
+                  <Badge key={service} variant="secondary">{service}</Badge>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium mb-2">Payment Gateway Providers</h3>
+              <div className="flex flex-wrap gap-2">
+                {user.pgProviders.map((provider) => (
+                  <Badge key={provider} variant="outline">{provider}</Badge>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h3 className="text-sm font-medium mb-2">Payment Methods</h3>
+              <div className="flex flex-wrap gap-2">
+                {user.paymentMethodsEnabled.map((method) => (
+                  <Badge key={method} variant="secondary">{method}</Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Risk Metrics Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Risk Metrics</CardTitle>
+          <CardDescription>Risk assessment and monitoring metrics</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
               <div>
                 <h3 className="text-sm font-medium mb-1">Fraud Transaction Ratio</h3>
                 <div className="flex items-center gap-2">
