@@ -14,20 +14,55 @@ interface PGDetailsFormProps {
 }
 
 export interface PGFormData {
+  // Legacy fields for compatibility
   merchantId: string;
-  businessName: string;
   companyName: string;
-  website: string;
   status: string;
   technicalContactName: string;
   technicalContactEmail: string;
   technicalContactPhone: string;
-  remarks: string;
-  partners: {
-    id: string;
-    name: string;
-    config: Record<string, string>;
-  }[];
+
+  // Personal Information
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  dob: string;
+  
+  // Contact Information
+  mobileNo: string;
+  phoneNo: string;
+  emailId: string;
+  
+  // Business Information
+  businessName: string;
+  businessNameDBA: string;
+  businessType: string;
+  gstn: string;
+  businessPan: string;
+  incorporationDate: string;
+  mcc: string;
+  businessAddressOperational: string;
+  businessAddressRegistered: string;
+  city: string;
+  state: string;
+  country: string;
+  
+  // Financial Information
+  annBusinessTurnover: string;
+  monCardTurnover: string;
+  dayTxnNo: string;
+  
+  // Online Presence
+  website: string;
+  aboutUrl: string;
+  contactUsUrl: string;
+  refundPolicyUrl: string;
+  privacyPolicyUrl: string;
+  termsUrl: string;
+  
+  // Payment Details
+  upiVpa: string;
+  pgUseCase: string;
 }
 
 const AVAILABLE_PARTNERS = [
@@ -84,67 +119,60 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
   initialData = {},
 }) => {
   const [formData, setFormData] = useState<PGFormData>({
+    // Legacy fields
     merchantId: '',
-    businessName: '',
     companyName: '',
-    website: '',
     status: 'pending',
     technicalContactName: '',
     technicalContactEmail: '',
     technicalContactPhone: '',
-    remarks: '',
-    partners: [],
+
+    // Personal Information
+    firstName: '',
+    lastName: '',
+    fullName: '',
+    dob: '',
+    
+    // Contact Information
+    mobileNo: '',
+    phoneNo: '',
+    emailId: '',
+    
+    // Business Information
+    businessName: '',
+    businessNameDBA: '',
+    businessType: '',
+    gstn: '',
+    businessPan: '',
+    incorporationDate: '',
+    mcc: '',
+    businessAddressOperational: '',
+    businessAddressRegistered: '',
+    city: '',
+    state: '',
+    country: '',
+    
+    // Financial Information
+    annBusinessTurnover: '',
+    monCardTurnover: '',
+    dayTxnNo: '',
+    
+    // Online Presence
+    website: '',
+    aboutUrl: '',
+    contactUsUrl: '',
+    refundPolicyUrl: '',
+    privacyPolicyUrl: '',
+    termsUrl: '',
+    
+    // Payment Details
+    upiVpa: '',
+    pgUseCase: '',
     ...initialData,
   });
 
-  const [selectedPartner, setSelectedPartner] = useState<string>('');
-  const [partnerConfigs, setPartnerConfigs] = useState<Record<string, Record<string, string>>>({});
-
-  const handleChange = (field: keyof PGFormData, value: any) => {
+  const handleChange = (field: keyof PGFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handlePartnerFieldChange = (partnerId: string, fieldId: string, value: string) => {
-    setPartnerConfigs(prev => ({
-      ...prev,
-      [partnerId]: {
-        ...prev[partnerId],
-        [fieldId]: value
-      }
-    }));
-  };
-
-  const handleAddPartner = () => {
-    if (!selectedPartner) return;
-
-    const partner = AVAILABLE_PARTNERS.find(p => p.id === selectedPartner);
-    if (!partner) return;
-
-    setFormData(prev => ({
-      ...prev,
-      partners: [
-        ...prev.partners,
-        {
-          id: partner.id,
-          name: partner.name,
-          config: partnerConfigs[partner.id] || {}
-        }
-      ]
-    }));
-
-    setSelectedPartner('');
-    setPartnerConfigs(prev => {
-      const newConfigs = { ...prev };
-      delete newConfigs[partner.id];
-      return newConfigs;
-    });
-  };
-
-  const handleRemovePartner = (partnerId: string) => {
-    setFormData(prev => ({
-      ...prev,
-      partners: prev.partners.filter(p => p.id !== partnerId)
-    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -156,170 +184,314 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     onSaveAndSend(formData);
   };
 
-  const getAvailablePartners = () => {
-    return AVAILABLE_PARTNERS.filter(
-      partner => !formData.partners.some(p => p.id === partner.id)
-    );
-  };
-
   return (
     <form className="space-y-8" onSubmit={handleSubmit}>
-      {/* Basic Details Section */}
       <Card>
         <CardContent className="pt-6">
           <h2 className="text-xl font-semibold mb-6">Basic Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="merchantId">Merchant ID</Label>
-              <Input
-                id="merchantId"
-                value={formData.merchantId}
-                onChange={e => handleChange('merchantId', e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="businessName">Business Name</Label>
-              <Input
-                id="businessName"
-                value={formData.businessName}
-                onChange={e => handleChange('businessName', e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="companyName">Company Name</Label>
-              <Input
-                id="companyName"
-                value={formData.companyName}
-                onChange={e => handleChange('companyName', e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="website">Website</Label>
-              <Input
-                id="website"
-                type="url"
-                placeholder="https://"
-                value={formData.website}
-                onChange={e => handleChange('website', e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 space-y-2">
-            <Label>Technical Contact</Label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Input
-                placeholder="Name"
-                value={formData.technicalContactName}
-                onChange={e => handleChange('technicalContactName', e.target.value)}
-              />
-              <Input
-                placeholder="Email"
-                type="email"
-                value={formData.technicalContactEmail}
-                onChange={e => handleChange('technicalContactEmail', e.target.value)}
-              />
-              <Input
-                placeholder="Phone"
-                value={formData.technicalContactPhone}
-                onChange={e => handleChange('technicalContactPhone', e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 space-y-2">
-            <Label htmlFor="remarks">Additional Remarks</Label>
-            <Textarea
-              id="remarks"
-              value={formData.remarks}
-              onChange={e => handleChange('remarks', e.target.value)}
-              placeholder="Enter any additional information or requirements..."
-              className="min-h-[100px]"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Payment Gateway Partners Section */}
-      <Card>
-        <CardContent className="pt-6">
-          <h2 className="text-xl font-semibold mb-6">Payment Gateway Partners</h2>
           
-          {/* Existing Partners */}
-          {formData.partners.map((partner) => (
-            <div key={partner.id} className="mb-6 p-4 border rounded-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">{partner.name}</h3>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleRemovePartner(partner.id)}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+          {/* Personal Information */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Personal Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="firstName">First Name</Label>
+                <Input
+                  id="firstName"
+                  value={formData.firstName}
+                  onChange={e => handleChange('firstName', e.target.value)}
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(partner.config).map(([key, value]) => (
-                  <div key={key} className="space-y-2">
-                    <Label className="text-sm text-muted-foreground capitalize">
-                      {key.replace(/_/g, ' ')}
-                    </Label>
-                    <p className="font-medium">{value}</p>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <Label htmlFor="lastName">Last Name</Label>
+                <Input
+                  id="lastName"
+                  value={formData.lastName}
+                  onChange={e => handleChange('lastName', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input
+                  id="fullName"
+                  value={formData.fullName}
+                  onChange={e => handleChange('fullName', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dob">Date of Birth</Label>
+                <Input
+                  id="dob"
+                  type="date"
+                  value={formData.dob}
+                  onChange={e => handleChange('dob', e.target.value)}
+                />
               </div>
             </div>
-          ))}
+          </div>
 
-          {/* Add New Partner */}
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <Select
-                value={selectedPartner}
-                onValueChange={setSelectedPartner}
-              >
-                <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Select a payment gateway partner" />
-                </SelectTrigger>
-                <SelectContent>
-                  {getAvailablePartners().map(partner => (
-                    <SelectItem key={partner.id} value={partner.id}>
-                      {partner.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Button
-                type="button"
-                onClick={handleAddPartner}
-                disabled={!selectedPartner}
-              >
-                Add Partner
-              </Button>
-            </div>
-
-            {/* Partner Configuration Fields */}
-            {selectedPartner && (
-              <div className="mt-4 p-4 border rounded-lg">
-                <h3 className="font-medium mb-4">
-                  {AVAILABLE_PARTNERS.find(p => p.id === selectedPartner)?.name} Configuration
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {AVAILABLE_PARTNERS.find(p => p.id === selectedPartner)?.fields.map(field => (
-                    <div key={field.id} className="space-y-2">
-                      <Label htmlFor={field.id}>{field.label}</Label>
-                      <Input
-                        id={field.id}
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        value={partnerConfigs[selectedPartner]?.[field.id] || ''}
-                        onChange={e => handlePartnerFieldChange(selectedPartner, field.id, e.target.value)}
-                      />
-                    </div>
-                  ))}
-                </div>
+          {/* Contact Information */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Contact Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="mobileNo">Mobile Number</Label>
+                <Input
+                  id="mobileNo"
+                  value={formData.mobileNo}
+                  onChange={e => handleChange('mobileNo', e.target.value)}
+                />
               </div>
-            )}
+              <div className="space-y-2">
+                <Label htmlFor="phoneNo">Phone Number</Label>
+                <Input
+                  id="phoneNo"
+                  value={formData.phoneNo}
+                  onChange={e => handleChange('phoneNo', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="emailId">Email ID</Label>
+                <Input
+                  id="emailId"
+                  type="email"
+                  value={formData.emailId}
+                  onChange={e => handleChange('emailId', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Business Information */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Business Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="businessName">Business Name</Label>
+                <Input
+                  id="businessName"
+                  value={formData.businessName}
+                  onChange={e => handleChange('businessName', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessNameDBA">Business Name DBA</Label>
+                <Input
+                  id="businessNameDBA"
+                  value={formData.businessNameDBA}
+                  onChange={e => handleChange('businessNameDBA', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessType">Business Type</Label>
+                <Input
+                  id="businessType"
+                  value={formData.businessType}
+                  onChange={e => handleChange('businessType', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gstn">GST Number</Label>
+                <Input
+                  id="gstn"
+                  value={formData.gstn}
+                  onChange={e => handleChange('gstn', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessPan">Business PAN</Label>
+                <Input
+                  id="businessPan"
+                  value={formData.businessPan}
+                  onChange={e => handleChange('businessPan', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="incorporationDate">Incorporation Date</Label>
+                <Input
+                  id="incorporationDate"
+                  type="date"
+                  value={formData.incorporationDate}
+                  onChange={e => handleChange('incorporationDate', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="mcc">Merchant Category Code</Label>
+                <Input
+                  id="mcc"
+                  value={formData.mcc}
+                  onChange={e => handleChange('mcc', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mt-6 space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="businessAddressOperational">Operational Business Address</Label>
+                <Textarea
+                  id="businessAddressOperational"
+                  value={formData.businessAddressOperational}
+                  onChange={e => handleChange('businessAddressOperational', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="businessAddressRegistered">Registered Business Address</Label>
+                <Textarea
+                  id="businessAddressRegistered"
+                  value={formData.businessAddressRegistered}
+                  onChange={e => handleChange('businessAddressRegistered', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+              <div className="space-y-2">
+                <Label htmlFor="city">City</Label>
+                <Input
+                  id="city"
+                  value={formData.city}
+                  onChange={e => handleChange('city', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="state">State</Label>
+                <Input
+                  id="state"
+                  value={formData.state}
+                  onChange={e => handleChange('state', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="country">Country</Label>
+                <Input
+                  id="country"
+                  value={formData.country}
+                  onChange={e => handleChange('country', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Financial Information */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Financial Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="annBusinessTurnover">Annual Business Turnover</Label>
+                <Input
+                  id="annBusinessTurnover"
+                  type="number"
+                  value={formData.annBusinessTurnover}
+                  onChange={e => handleChange('annBusinessTurnover', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="monCardTurnover">Monthly Card Turnover</Label>
+                <Input
+                  id="monCardTurnover"
+                  type="number"
+                  value={formData.monCardTurnover}
+                  onChange={e => handleChange('monCardTurnover', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="dayTxnNo">Daily Transaction Number</Label>
+                <Input
+                  id="dayTxnNo"
+                  type="number"
+                  value={formData.dayTxnNo}
+                  onChange={e => handleChange('dayTxnNo', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Online Presence */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Online Presence</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="website">Website</Label>
+                <Input
+                  id="website"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.website}
+                  onChange={e => handleChange('website', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="aboutUrl">About URL</Label>
+                <Input
+                  id="aboutUrl"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.aboutUrl}
+                  onChange={e => handleChange('aboutUrl', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactUsUrl">Contact Us URL</Label>
+                <Input
+                  id="contactUsUrl"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.contactUsUrl}
+                  onChange={e => handleChange('contactUsUrl', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="refundPolicyUrl">Refund Policy URL</Label>
+                <Input
+                  id="refundPolicyUrl"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.refundPolicyUrl}
+                  onChange={e => handleChange('refundPolicyUrl', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="privacyPolicyUrl">Privacy Policy URL</Label>
+                <Input
+                  id="privacyPolicyUrl"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.privacyPolicyUrl}
+                  onChange={e => handleChange('privacyPolicyUrl', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="termsUrl">Terms URL</Label>
+                <Input
+                  id="termsUrl"
+                  type="url"
+                  placeholder="https://"
+                  value={formData.termsUrl}
+                  onChange={e => handleChange('termsUrl', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Payment Details */}
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Payment Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="upiVpa">UPI Virtual Payment Address</Label>
+                <Input
+                  id="upiVpa"
+                  value={formData.upiVpa}
+                  onChange={e => handleChange('upiVpa', e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="pgUseCase">Payment Gateway Use Case</Label>
+                <Input
+                  id="pgUseCase"
+                  value={formData.pgUseCase}
+                  onChange={e => handleChange('pgUseCase', e.target.value)}
+                />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
