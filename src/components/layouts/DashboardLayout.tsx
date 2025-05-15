@@ -119,7 +119,7 @@ const DashboardLayout: React.FC = () => {
         <Sidebar variant="sidebar" collapsible="icon">
           <div className="h-full flex flex-col">
             <SidebarHeader>
-              <OpenArcLogo className="w-32" />
+              <div style={{ height: 48, margin: '8px auto' }} />
             </SidebarHeader>
             <SidebarContent className="flex-1">
               <SidebarMenu>

@@ -121,15 +121,15 @@ const PaymentGateway: React.FC = () => {
   const handlePGSave = (data: PGFormData) => {
     setPgData({
       merchantId: data.merchantId,
-      businessName: data.businessName,
+      businessName: data.business_name,
       status: data.status,
     });
     setSubmittedUsers(prev => [
       ...prev,
       {
         merchantId: data.merchantId,
-        businessName: data.businessName,
-        companyName: data.companyName || data.businessName,
+        businessName: data.business_name,
+        companyName: data.companyName || data.business_name,
         website: data.website || '',
         status: data.status,
         technicalContactName: data.technicalContactName,

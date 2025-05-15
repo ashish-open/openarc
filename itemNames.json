@@ -1,0 +1,142 @@
+{
+  "totalItems": 125,
+  "sections": {
+    "Basic Details": {
+      "items": [
+        { "itemName": "nodal_account_name", "displayName": "Nodal Account Name" },
+        { "itemName": "business_name", "displayName": "Business Name" },
+        { "itemName": "business_name_dba", "displayName": "Business Name DBA" },
+        { "itemName": "incorporation_date", "displayName": "Incorporation Date" },
+        { "itemName": "website", "displayName": "Website" },
+        { "itemName": "full_name", "displayName": "Full Name" },
+        { "itemName": "mobile_no", "displayName": "Mobile Number" },
+        { "itemName": "email_id", "displayName": "Email ID" },
+        { "itemName": "dob", "displayName": "Date of Birth" },
+        { "itemName": "business_address_operational", "displayName": "Business Address Operational" },
+        { "itemName": "mcc", "displayName": "MCC" },
+        { "itemName": "about_url", "displayName": "About URL" },
+        { "itemName": "contact_us_url", "displayName": "Contact Us URL" },
+        { "itemName": "refund_policy_url", "displayName": "Refund Policy URL" },
+        { "itemName": "privacy_policy_url", "displayName": "Privacy Policy URL" },
+        { "itemName": "terms_url", "displayName": "Terms URL" },
+        { "itemName": "ann_business_turnover", "displayName": "Annual Business Turnover" },
+        { "itemName": "mon_card_turnover", "displayName": "Monthly Card Turnover" },
+        { "itemName": "day_txn_no", "displayName": "Daily Transaction Number" },
+        { "itemName": "pg_use_case", "displayName": "Use Case" },
+        { "itemName": "business_pan", "displayName": "Business PAN" },
+        { "itemName": "business_type", "displayName": "Business Type" },
+        { "itemName": "upi_vpa", "displayName": "UPI VPA" },
+        { "itemName": "city_registered", "displayName": "City" },
+        { "itemName": "state_registered", "displayName": "State" },
+        { "itemName": "country_registered", "displayName": "Country" },
+        { "itemName": "pin_code_registered", "displayName": "PIN Code" },
+        { "itemName": "city_operational", "displayName": "City" },
+        { "itemName": "state_operational", "displayName": "State" },
+        { "itemName": "country_operational", "displayName": "Country" },
+        { "itemName": "pin_code_operational", "displayName": "PIN Code" },
+        { "itemName": "submission_date", "displayName": "Submission Date" }
+      ]
+    },
+    "HDFC": {
+      "Cards": {
+        "items": [
+          { "itemName": "hdfc_sl_no", "displayName": "Serial Number" },
+          { "itemName": "business_operational_pin", "displayName": "Business Operational PIN" },
+          { "itemName": "tid_type", "displayName": "TID Type" },
+          { "itemName": "no_of_tid", "displayName": "Number of TIDs" },
+          { "itemName": "tid_req", "displayName": "TID Requirement" },
+          { "itemName": "check_out_url", "displayName": "Checkout URL" },
+          { "itemName": "additional_url", "displayName": "Additional URL" },
+          { "itemName": "business_age", "displayName": "Business Age" },
+          { "itemName": "pg_setup_type", "displayName": "Setup Type" },
+          { "itemName": "hdfc_promo", "displayName": "Promo" },
+          { "itemName": "ref_tid", "displayName": "Reference TID" }
+        ]
+      },
+      "UPI": {
+        "items": [
+          { "itemName": "entity_mid", "displayName": "Entity MID" },
+          { "itemName": "hdfc_integration_approach", "displayName": "Integration Approach" },
+          { "itemName": "hdfc_settlement_type", "displayName": "Settlement Type" },
+          { "itemName": "day_upi_txn_no", "displayName": "Daily UPI Transaction Number" },
+          { "itemName": "day_upi_max_lmt", "displayName": "Daily UPI Max Limit" },
+          { "itemName": "per_upi_txn_lmt", "displayName": "Per UPI Transaction Limit" },
+          { "itemName": "hdfc_upi_whitelist1", "displayName": "UPI Whitelist 1" },
+          { "itemName": "hdfc_upi_whitelist2", "displayName": "UPI Whitelist 2" },
+          { "itemName": "ext_mid", "displayName": "External MID" },
+          { "itemName": "ext_tid", "displayName": "External TID" },
+          { "itemName": "gstn", "displayName": "GSTN" },
+          { "itemName": "modify_flag", "displayName": "Modify Flag" },
+          { "itemName": "upi_txn_type", "displayName": "UPI Transaction Type" }
+        ]
+      }
+    },
+    "Atom": {
+      "Contact Field": {
+        "items": [
+          { "itemName": "first_name", "displayName": "First Name" },
+          { "itemName": "last_name", "displayName": "Last Name" }
+        ]
+      },
+      "Account Field Details": {
+        "items": [
+          { "itemName": "phone_no", "displayName": "Phone Number" },
+          { "itemName": "merchant_zone", "displayName": "Merchant Zone" },
+          { "itemName": "business_address_registered", "displayName": "Business Address Registered" },
+          { "itemName": "city", "displayName": "City" },
+          { "itemName": "state", "displayName": "State" },
+          { "itemName": "business_operation_pin", "displayName": "Business Operation PIN" },
+          { "itemName": "country", "displayName": "Country" },
+          { "itemName": "industry", "displayName": "Industry" },
+          { "itemName": "sub_industry", "displayName": "Sub Industry" },
+          { "itemName": "business_segment", "displayName": "Business Segment" },
+          { "itemName": "affl_cert_atom", "displayName": "Affiliate Certificate" },
+          { "itemName": "personal_pan", "displayName": "Personal PAN" },
+          { "itemName": "personal_pin", "displayName": "Personal PIN" },
+          { "itemName": "personal_street1", "displayName": "Street Address 1" },
+          { "itemName": "personal_street2", "displayName": "Street Address 2" },
+          { "itemName": "ae_name", "displayName": "AE Name" },
+          { "itemName": "chargeback_contact", "displayName": "Chargeback Contact" },
+          { "itemName": "finance_contact", "displayName": "Finance Contact" },
+          { "itemName": "product_support_contact", "displayName": "Product Support Contact" },
+          { "itemName": "setup_contact", "displayName": "Setup Contact" },
+          { "itemName": "ae_contact", "displayName": "AE Contact" }
+        ]
+      },
+      "Opportunities Field Details": {
+        "items": [
+          { "itemName": "pg_modes", "displayName": "Modes" },
+          { "itemName": "atom_settlement_type", "displayName": "Settlement Type" },
+          { "itemName": "surcharge_status", "displayName": "Surcharge Status" },
+          { "itemName": "bill_to", "displayName": "Bill To" },
+          { "itemName": "integration_kit", "displayName": "Integration Kit" },
+          { "itemName": "atom_integration_type", "displayName": "Integration Type" },
+          { "itemName": "atom_pre_integration", "displayName": "Pre Integration" },
+          { "itemName": "nodal_bank", "displayName": "Nodal Bank" },
+          { "itemName": "nodal_branch_code", "displayName": "Nodal Branch Code" },
+          { "itemName": "nodal_branch_name", "displayName": "Nodal Branch Name" },
+          { "itemName": "nodal_account_number", "displayName": "Nodal Account Number" },
+          { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" },
+          { "itemName": "hdfc_prod_id_name", "displayName": "Product ID Name" },
+          { "itemName": "hdfc_domain_check", "displayName": "Domain Check" },
+          { "itemName": "atom_multi_status", "displayName": "Multi Status" },
+          { "itemName": "website_login_details", "displayName": "Website Login Details" },
+          { "itemName": "website_status", "displayName": "Website Status" },
+          { "itemName": "atom_min_ticket_size", "displayName": "Min Ticket Size" },
+          { "itemName": "atom_max_ticket_size", "displayName": "Max Ticket Size" },
+          { "itemName": "pricing_details", "displayName": "Pricing Details" }
+        ]
+      }
+    },
+    "Legacy": {
+      "items": [
+        { "itemName": "merchantId", "displayName": "Merchant ID" },
+        { "itemName": "companyName", "displayName": "Company Name" },
+        { "itemName": "status", "displayName": "Status" },
+        { "itemName": "technicalContactName", "displayName": "Technical Contact Name" },
+        { "itemName": "technicalContactEmail", "displayName": "Technical Contact Email" },
+        { "itemName": "technicalContactPhone", "displayName": "Technical Contact Phone" }
+      ]
+    }
+  }
+}
