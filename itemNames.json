@@ -4,8 +4,13 @@
     "Basic Details": {
       "items": [
         { "itemName": "nodal_account_name", "displayName": "Nodal Account Name" },
+        { "itemName": "nodal_bank", "displayName": "Nodal Bank" },
+        { "itemName": "nodal_branch_code", "displayName": "Nodal Branch Code" },
+        { "itemName": "nodal_branch_name", "displayName": "Nodal Branch Name" },
+        { "itemName": "nodal_account_number", "displayName": "Nodal Account Number" },
+        { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" },
         { "itemName": "business_name", "displayName": "Business Name" },
-        { "itemName": "business_name_dba", "displayName": "Business Name DBA" },
+        { "itemName": "business_name_dba", "displayName": "Alternate Business Name" },
         { "itemName": "incorporation_date", "displayName": "Incorporation Date" },
         { "itemName": "website", "displayName": "Website" },
         { "itemName": "full_name", "displayName": "Full Name" },
@@ -80,6 +85,7 @@
       },
       "Account Field Details": {
         "items": [
+          { "itemName": "ae_contact", "displayName": "AE Contact" },
           { "itemName": "phone_no", "displayName": "Phone Number" },
           { "itemName": "merchant_zone", "displayName": "Merchant Zone" },
           { "itemName": "business_address_registered", "displayName": "Business Address Registered" },
@@ -92,15 +98,13 @@
           { "itemName": "business_segment", "displayName": "Business Segment" },
           { "itemName": "affl_cert_atom", "displayName": "Affiliate Certificate" },
           { "itemName": "personal_pan", "displayName": "Personal PAN" },
-          { "itemName": "personal_pin", "displayName": "Personal PIN" },
+          { "itemName": "personal_pin", "displayName": "PIN" },
           { "itemName": "personal_street1", "displayName": "Street Address 1" },
           { "itemName": "personal_street2", "displayName": "Street Address 2" },
-          { "itemName": "ae_name", "displayName": "AE Name" },
           { "itemName": "chargeback_contact", "displayName": "Chargeback Contact" },
           { "itemName": "finance_contact", "displayName": "Finance Contact" },
           { "itemName": "product_support_contact", "displayName": "Product Support Contact" },
-          { "itemName": "setup_contact", "displayName": "Setup Contact" },
-          { "itemName": "ae_contact", "displayName": "AE Contact" }
+          { "itemName": "setup_contact", "displayName": "Setup Contact" }
         ]
       },
       "Opportunities Field Details": {
@@ -112,11 +116,6 @@
           { "itemName": "integration_kit", "displayName": "Integration Kit" },
           { "itemName": "atom_integration_type", "displayName": "Integration Type" },
           { "itemName": "atom_pre_integration", "displayName": "Pre Integration" },
-          { "itemName": "nodal_bank", "displayName": "Nodal Bank" },
-          { "itemName": "nodal_branch_code", "displayName": "Nodal Branch Code" },
-          { "itemName": "nodal_branch_name", "displayName": "Nodal Branch Name" },
-          { "itemName": "nodal_account_number", "displayName": "Nodal Account Number" },
-          { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" },
           { "itemName": "hdfc_prod_id_name", "displayName": "Product ID Name" },
           { "itemName": "hdfc_domain_check", "displayName": "Domain Check" },
           { "itemName": "atom_multi_status", "displayName": "Multi Status" },

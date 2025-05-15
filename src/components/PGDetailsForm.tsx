@@ -584,6 +584,117 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
         </div>
       );
     }
+    // Special case for industry: render as a dropdown
+    if (itemName === 'industry') {
+      const industryOptions = [
+        'Airlines & Hotels',
+        'BFSI',
+        'Consultancy',
+        'E-com',
+        'Education',
+        'Government',
+        'IT Service',
+        'Lending Service',
+        'Payment Service',
+        'Services',
+        'Shipping',
+        'Travel & Hospitality',
+      ];
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger className="bg-white text-black">
+              <SelectValue placeholder="Select Industry" />
+            </SelectTrigger>
+            <SelectContent>
+              {industryOptions.map(option => (
+                <SelectItem
+                  key={option}
+                  value={option}
+                  className="data-[highlighted]:bg-primary data-[highlighted]:text-white"
+                >
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+    // Special case for sub_industry: render as a dropdown
+    if (itemName === 'sub_industry') {
+      const subIndustryOptions = [
+        'Airlines',
+        'Automobile Sale',
+        'BFSI Others',
+        'Broker',
+        'Coaching Class',
+        'College',
+        'Consultancy Service',
+        'Donation',
+        'DTH & ISP',
+        'e-Auction, e-Tendering & Procurement',
+        'E-com Others',
+        'Edu Others',
+        'Edu Govt',
+        'Event Ticket Booking',
+        'Government Others',
+        'Government Portal',
+        'Government Services',
+        'Hospital',
+        'Hotels',
+        'Insurance',
+        'IT Service',
+        'Job Recruitment',
+        'Lending',
+        'Logistics',
+        'Market Place - B2B',
+        'Market Place - B2C',
+        'Municipal Corporation',
+        'Mutual Fund',
+        'NBFC',
+        'Payment Service',
+        'Road Transport Corporation',
+        'School',
+        'Smart City Urban Development',
+        'Social Service',
+        'Social Welfare',
+        'Society',
+        'Tourism',
+        'Travel',
+        'University',
+        'Utility',
+        'Utility Private',
+      ];
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger className="bg-white text-black">
+              <SelectValue placeholder="Select Sub industry" />
+            </SelectTrigger>
+            <SelectContent>
+              {subIndustryOptions.map(option => (
+                <SelectItem
+                  key={option}
+                  value={option}
+                  className="data-[highlighted]:bg-primary data-[highlighted]:text-white"
+                >
+                  {option}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
     return (
       <div className="space-y-2">
         <Label htmlFor={itemName}>{displayName}</Label>
@@ -610,344 +721,299 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
 
   return (
     <form className="space-y-8" onSubmit={handleSubmit}>
-      <div className="space-y-4">
-        {/* Basic Details Section */}
-        <Card className="overflow-hidden">
-          <Accordion type="single" collapsible defaultValue="basic-details">
-            <AccordionItem value="basic-details" className="border-0">
-              <AccordionTrigger className="text-xl font-semibold px-6 py-4">
-                Basic Details
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="px-6 pb-6">
-                  {/* Nodal Account Name and Submission Date at the top */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                      {renderField('nodal_account_name', 'Nodal Account Name')}
-                    </div>
-                    <div>
-                      {renderField('submission_date', 'date')}
-                    </div>
-                  </div>
-                  
-                  {/* User Details */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">User Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* First Name and Last Name */}
-                      <div>
-                        {renderField('first_name')}
-                      </div>
-                      <div>
-                        {renderField('last_name')}
-                      </div>
-                      {/* Full Name and Email ID */}
-                      <div>
-                        {renderField('full_name', 'text', true)}
-                      </div>
-                      <div>
-                        {renderField('email_id', 'email')}
-                      </div>
-                      {/* Mobile Number and Phone Number */}
-                      <div>
-                        {renderField('mobile_no')}
-                      </div>
-                      <div>
-                        {renderField('phone_no')}
-                      </div>
-                      <div>
-                        {renderField('dob', 'date')}
-                      </div>
-                      
-                      {/* Contact information */}
-                      <div>
-                        {renderField('personal_pan')}
-                      </div>
-                      <div>
-                        {renderField('personal_pin')}
-                      </div>
-                      <div>
-                        {renderField('personal_street1')}
-                      </div>
-                      <div>
-                        {renderField('personal_street2')}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Business Details */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Business Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        {renderField('business_name')}
-                      </div>
-                      <div>
-                        {renderField('business_name_dba')}
-                      </div>
-                      <div>
-                        {renderField('business_type')}
-                      </div>
-                      <div>
-                        {renderField('incorporation_date', 'date')}
-                      </div>
-                      <div>
-                        {renderField('merchant_zone')}
-                      </div>
-                      {/* Registration and Operational Address Logic */}
-                      <div className="col-span-full">
-                        <div className="flex flex-col gap-2">
-                          <div className="w-full">
-                            {renderField('business_address_registered', 'textarea')}
-                          </div>
-                          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                              {renderField('city_registered')}
-                            </div>
-                            <div>
-                              {renderField('state_registered')}
-                            </div>
-                            <div>
-                              {renderField('country_registered')}
-                            </div>
-                            <div>
-                              {renderField('pin_code_registered')}
-                            </div>
-                          </div>
-                          <label className="flex items-center gap-2 text-sm font-medium mt-2">
-                            <input
-                              type="checkbox"
-                              checked={showOperationalAddress}
-                              onChange={e => {
-                                setShowOperationalAddress(e.target.checked);
-                                if (!e.target.checked) {
-                                  handleChange('business_address_operational', formData.business_address_registered);
-                                }
-                              }}
-                            />
-                            Operational address is different
-                          </label>
-                          {showOperationalAddress && (
-                            <>
-                              <div className="w-full">
-                                {renderField('business_address_operational', 'textarea')}
-                              </div>
-                              <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                  {renderField('city_operational')}
-                                </div>
-                                <div>
-                                  {renderField('state_operational')}
-                                </div>
-                                <div>
-                                  {renderField('country_operational')}
-                                </div>
-                                <div>
-                                  {renderField('pin_code_operational')}
-                                </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                      <div>
-                        {renderField('industry')}
-                      </div>
-                      <div>
-                        {renderField('sub_industry')}
-                      </div>
-                      <div>
-                        {renderField('business_segment')}
-                      </div>
-                      <div>
-                        {renderField('affl_cert_atom')}
-                      </div>
-                      <div>
-                        {renderField('business_pan')}
-                      </div>
-                      <div>
-                        {renderField('gstn')}
-                      </div>
-                      <div>
-                        {renderField('business_age', 'text', true)}
-                      </div>
-                      <div>
-                        {renderField('mcc')}
-                      </div>
-                      <div className="col-span-full">
-                        {renderField('pg_use_case', 'textarea')}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Financials */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Financials</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        {renderField('ann_business_turnover')}
-                      </div>
-                      <div>
-                        {renderField('mon_card_turnover')}
-                      </div>
-                      <div>
-                        {renderField('day_txn_no')}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Website Details */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Website Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        {renderField('website', 'url')}
-                      </div>
-                      <div>
-                        {renderField('about_url', 'url')}
-                      </div>
-                      <div>
-                        {renderField('contact_us_url', 'url')}
-                      </div>
-                      <div>
-                        {renderField('refund_policy_url', 'url')}
-                      </div>
-                      <div>
-                        {renderField('privacy_policy_url', 'url')}
-                      </div>
-                      <div>
-                        {renderField('terms_url', 'url')}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
-        {/* HDFC Section */}
-        <Card className="overflow-hidden">
-          <Accordion type="single" collapsible>
-            <AccordionItem value="hdfc" className="border-0">
-              <AccordionTrigger className="text-xl font-semibold px-6 py-4">
-                HDFC
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="px-6 pb-6">
-                  {/* Cards Subsection */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Cards</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {itemNames.sections["HDFC"]["Cards"].items.map(item => {
-                        // Filter out business_age since it's moved to Business Details
-                        if (item.itemName === 'business_age') {
-                          return null;
-                        }
-                        return (
-                          <div key={item.itemName}>
-                            {renderField(item.itemName)}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* UPI Subsection */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">UPI</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {itemNames.sections["HDFC"]["UPI"].items.map(item => {
-                        // Filter out gstn since it's already in Business Details
-                        if (item.itemName === 'gstn') {
-                          return null;
-                        }
-                        // Custom display names for whitelist fields
-                        let displayName = item.displayName;
-                        if (item.itemName === 'hdfc_upi_whitelist1') {
-                          displayName = 'Whitelisted URL 1';
-                        } else if (item.itemName === 'hdfc_upi_whitelist2') {
-                          displayName = 'Whitelisted URL 2';
-                        }
-                        return (
-                          <div key={item.itemName}>
-                            {renderField(item.itemName)}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
-
-        {/* Atom Section */}
-        <Card className="overflow-hidden">
-          <Accordion type="single" collapsible>
-            <AccordionItem value="atom" className="border-0">
-              <AccordionTrigger className="text-xl font-semibold px-6 py-4">
-                Atom
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="px-6 pb-6">
-                  {/* Account Field Details Subsection */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Account Field Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {itemNames.sections["Atom"]["Account Field Details"].items.filter(item => item.itemName !== 'phone_no' &&
-                        item.itemName !== 'merchant_zone' &&
-                        item.itemName !== 'business_address_registered' &&
-                        item.itemName !== 'city' &&
-                        item.itemName !== 'state' &&
-                        item.itemName !== 'country' &&
-                        item.itemName !== 'business_operation_pin' &&
-                        item.itemName !== 'industry' &&
-                        item.itemName !== 'sub_industry' &&
-                        item.itemName !== 'business_segment' &&
-                        item.itemName !== 'affl_cert_atom' &&
-                        item.itemName !== 'personal_pan' &&
-                        item.itemName !== 'personal_pin' &&
-                        item.itemName !== 'personal_street1' &&
-                        item.itemName !== 'personal_street2'
-                      ).map(item => {
-                        // Use textarea for address fields
-                        const isTextarea = item.itemName.includes('address');
-                        return (
-                          <div key={item.itemName} className={`${isTextarea ? 'col-span-full' : ''}`}>
-                            {renderField(item.itemName, isTextarea ? 'textarea' : 'text')}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Opportunities Field Details Subsection */}
-                  <div className="mb-8">
-                    <h3 className="text-lg font-medium mb-4">Opportunities Field Details</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Render pg_modes with custom display name */}
-                      <div>
-                        {renderField('pg_modes', 'Payment Modes')}
-                      </div>
-                      
-                      {/* Render other Opportunities fields */}
-                      {itemNames.sections["Atom"]["Opportunities Field Details"].items
-                        .filter(item => item.itemName !== 'pg_modes')
-                        .map(item => (
-                          <div key={item.itemName}>
-                            {renderField(item.itemName)}
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </Card>
+      {/* Submission Date at the top right */}
+      <div className="flex justify-end mb-2">
+        <div className="flex flex-col items-end">
+          <span className="mb-1 text-base font-semibold text-gray-700 text-right">Submission Date</span>
+          <Input
+            id="submission_date"
+            type="date"
+            value={formData['submission_date'] || ''}
+            onChange={e => handleChange('submission_date', e.target.value)}
+            className="text-lg border rounded focus:ring-2 focus:ring-primary p-1 w-auto min-w-0"
+            style={{maxWidth: 'fit-content'}}
+          />
+        </div>
       </div>
+      {/* Nodal Account Details Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="nodal-details">
+          <AccordionItem value="nodal-details" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              Nodal Account Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('nodal_account_name')}</div>
+                  <div>{renderField('nodal_bank')}</div>
+                  <div>{renderField('nodal_branch_code')}</div>
+                  <div>{renderField('nodal_branch_name')}</div>
+                  <div>{renderField('nodal_account_number')}</div>
+                  <div>{renderField('nodal_ifsc')}</div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+      {/* User Details Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="user-details">
+          <AccordionItem value="user-details" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              User Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('first_name')}</div>
+                  <div>{renderField('last_name')}</div>
+                  <div>{renderField('full_name', 'text', true)}</div>
+                  <div>{renderField('email_id', 'email')}</div>
+                  <div>{renderField('mobile_no')}</div>
+                  <div>{renderField('phone_no')}</div>
+                  <div>{renderField('dob', 'date')}</div>
+                  <div>{renderField('personal_pan')}</div>
+                  <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>{renderField('personal_street1')}</div>
+                    <div>{renderField('personal_street2')}</div>
+                  </div>
+                  <div className="col-span-full">{renderField('personal_pin')}</div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+      {/* Business Details Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="business-details">
+          <AccordionItem value="business-details" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              Business Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('business_name')}</div>
+                  <div>{renderField('business_name_dba')}</div>
+                  <div>{renderField('business_type')}</div>
+                  <div>{renderField('incorporation_date', 'date')}</div>
+                  <div>{renderField('merchant_zone')}</div>
+                  <div>{renderField('ann_business_turnover')}</div>
+                  <div className="col-span-full">
+                    <div className="flex flex-col gap-2">
+                      <div className="w-full">{renderField('business_address_registered', 'textarea')}</div>
+                      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>{renderField('city_registered')}</div>
+                        <div>{renderField('state_registered')}</div>
+                        <div>{renderField('country_registered')}</div>
+                        <div>{renderField('pin_code_registered')}</div>
+                      </div>
+                      <label className="flex items-center gap-2 text-sm font-medium mt-2">
+                        <input
+                          type="checkbox"
+                          checked={showOperationalAddress}
+                          onChange={e => {
+                            setShowOperationalAddress(e.target.checked);
+                            if (!e.target.checked) {
+                              handleChange('business_address_operational', formData.business_address_registered);
+                            }
+                          }}
+                        />
+                        Operational address is different
+                      </label>
+                      {showOperationalAddress && (
+                        <>
+                          <div className="w-full">{renderField('business_address_operational', 'textarea')}</div>
+                          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>{renderField('city_operational')}</div>
+                            <div>{renderField('state_operational')}</div>
+                            <div>{renderField('country_operational')}</div>
+                            <div>{renderField('pin_code_operational')}</div>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div>{renderField('industry')}</div>
+                  <div>{renderField('sub_industry')}</div>
+                  <div>{renderField('business_segment')}</div>
+                  <div>{renderField('affl_cert_atom')}</div>
+                  <div>{renderField('business_pan')}</div>
+                  <div>{renderField('gstn')}</div>
+                  <div>{renderField('business_age', 'text', true)}</div>
+                  <div>{renderField('mcc')}</div>
+                  <div className="col-span-full">{renderField('pg_use_case', 'textarea')}</div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+      {/* Financials Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="financials">
+          <AccordionItem value="financials" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              Financials
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('mon_card_turnover')}</div>
+                  <div>{renderField('day_txn_no')}</div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+      {/* Website Details Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="website-details">
+          <AccordionItem value="website-details" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              Website Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('website', 'url')}</div>
+                  <div>{renderField('about_url', 'url')}</div>
+                  <div>{renderField('contact_us_url', 'url')}</div>
+                  <div>{renderField('refund_policy_url', 'url')}</div>
+                  <div>{renderField('privacy_policy_url', 'url')}</div>
+                  <div>{renderField('terms_url', 'url')}</div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+      {/* HDFC Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible>
+          <AccordionItem value="hdfc" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              HDFC
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                {/* Cards Subsection */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Cards</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {itemNames.sections["HDFC"]["Cards"].items.map(item => {
+                      // Filter out business_age since it's moved to Business Details
+                      if (item.itemName === 'business_age') {
+                        return null;
+                      }
+                      return (
+                        <div key={item.itemName}>
+                          {renderField(item.itemName)}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* UPI Subsection */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">UPI</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {itemNames.sections["HDFC"]["UPI"].items.map(item => {
+                      // Filter out gstn since it's already in Business Details
+                      if (item.itemName === 'gstn') {
+                        return null;
+                      }
+                      // Custom display names for whitelist fields
+                      let displayName = item.displayName;
+                      if (item.itemName === 'hdfc_upi_whitelist1') {
+                        displayName = 'Whitelisted URL 1';
+                      } else if (item.itemName === 'hdfc_upi_whitelist2') {
+                        displayName = 'Whitelisted URL 2';
+                      }
+                      return (
+                        <div key={item.itemName}>
+                          {renderField(item.itemName)}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+
+      {/* Atom Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible>
+          <AccordionItem value="atom" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              Atom
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                {/* Account Field Details Subsection */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Account Field Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {itemNames.sections["Atom"]["Account Field Details"].items.filter(item => item.itemName !== 'phone_no' &&
+                      item.itemName !== 'merchant_zone' &&
+                      item.itemName !== 'business_address_registered' &&
+                      item.itemName !== 'city' &&
+                      item.itemName !== 'state' &&
+                      item.itemName !== 'country' &&
+                      item.itemName !== 'business_operation_pin' &&
+                      item.itemName !== 'industry' &&
+                      item.itemName !== 'sub_industry' &&
+                      item.itemName !== 'business_segment' &&
+                      item.itemName !== 'affl_cert_atom' &&
+                      item.itemName !== 'personal_pan' &&
+                      item.itemName !== 'personal_pin' &&
+                      item.itemName !== 'personal_street1' &&
+                      item.itemName !== 'personal_street2' &&
+                      item.itemName !== 'ae_name'
+                    ).map(item => {
+                      // Use textarea for address fields
+                      const isTextarea = item.itemName.includes('address');
+                      return (
+                        <div key={item.itemName} className={`${isTextarea ? 'col-span-full' : ''}`}>
+                          {renderField(item.itemName, isTextarea ? 'textarea' : 'text')}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Opportunities Field Details Subsection */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium mb-4">Opportunities Field Details</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Render pg_modes with custom display name */}
+                    <div>
+                      {renderField('pg_modes', 'Payment Modes')}
+                    </div>
+                    
+                    {/* Render other Opportunities fields */}
+                    {itemNames.sections["Atom"]["Opportunities Field Details"].items
+                      .filter(item => item.itemName !== 'pg_modes')
+                      .map(item => (
+                        <div key={item.itemName}>
+                          {renderField(item.itemName)}
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
 
       {/* Form Actions */}
       <div className="flex justify-end gap-4">
