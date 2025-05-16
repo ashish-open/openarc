@@ -8,7 +8,8 @@
         { "itemName": "nodal_branch_code", "displayName": "Nodal Branch Code" },
         { "itemName": "nodal_branch_name", "displayName": "Nodal Branch Name" },
         { "itemName": "nodal_account_number", "displayName": "Nodal Account Number" },
-        { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" }
+        { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" },
+        { "itemName": "submission_date", "displayName": "Submission Date" }
       ]
     },
     "User Details": {
@@ -32,7 +33,6 @@
         { "itemName": "business_name", "displayName": "Business Name" },
         { "itemName": "business_name_dba", "displayName": "Alternate Business Name" },
         { "itemName": "business_type", "displayName": "Business Type" },
-        { "itemName": "upi_vpa", "displayName": "UPI VPA" },
         { "itemName": "incorporation_date", "displayName": "Incorporation Date" },
         { "itemName": "merchant_zone", "displayName": "Merchant Zone" },
         { "itemName": "ann_business_turnover", "displayName": "Annual Business Turnover" },
@@ -85,7 +85,8 @@
         { "itemName": "day_txn_no", "displayName": "Daily Transaction Number" },
         { "itemName": "day_upi_txn_no", "displayName": "Daily UPI Transaction Number" },
         { "itemName": "day_upi_max_lmt", "displayName": "Daily UPI Max Limit" },
-        { "itemName": "per_upi_txn_lmt", "displayName": "Per UPI Transaction Limit" }
+        { "itemName": "per_upi_txn_lmt", "displayName": "Per UPI Transaction Limit" },
+        { "itemName": "upi_vpa", "displayName": "UPI VPA" }
       ]
     },
     "HDFC": {
