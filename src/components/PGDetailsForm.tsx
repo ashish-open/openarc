@@ -39,42 +39,90 @@ export interface PGFormData {
   technicalContactEmail: string;
   technicalContactPhone: string;
 
-  // Basic Details
+  // Nodal Account Details
   nodal_account_name: string;
+  nodal_bank: string;
+  nodal_branch_code: string;
+  nodal_branch_name: string;
+  nodal_account_number: string;
+  nodal_ifsc: string;
   submission_date: string;
+
+  // User Details
+  first_name: string;
+  last_name: string;
+  full_name: string;
+  email_id: string;
+  mobile_no: string;
+  phone_no: string;
+  dob: string;
+  personal_pan: string;
+  personal_street1: string;
+  personal_street2: string;
+  personal_city: string;
+  personal_pin: string;
+
+  // Business Details
   business_name: string;
   business_name_dba: string;
+  business_type: string;
   incorporation_date: string;
-  website: string;
-  full_name: string;
-  mobile_no: string;
-  email_id: string;
-  dob: string;
+  merchant_zone: string;
+  ann_business_turnover: string;
+  business_address_registered: string;
+  city_registered: string;
+  state_registered: string;
+  country_registered: string;
+  pin_code_registered: string;
   business_address_operational: string;
+  city_operational: string;
+  state_operational: string;
+  country_operational: string;
+  pin_code_operational: string;
+  industry: string;
+  sub_industry: string;
+  business_segment: string;
+  business_age: string;
+  business_pan: string;
+  gstn: string;
   mcc: string;
+  affl_cert_atom: string;
+  pg_use_case: string;
+
+  // Website Details
+  website: string;
   about_url: string;
   contact_us_url: string;
   refund_policy_url: string;
   privacy_policy_url: string;
   terms_url: string;
-  ann_business_turnover: string;
+  check_out_url: string;
+  additional_url: string;
+
+  // POC Details
+  ae_contact: string;
+  chargeback_contact: string;
+  finance_contact: string;
+  product_support_contact: string;
+  verification_contact: string;
+
+  // Requested Limits
+  mon_turnover: string;
   mon_card_turnover: string;
   day_txn_no: string;
-  pg_use_case: string;
-  business_pan: string;
-  business_type: string;
+  day_upi_txn_no: string;
+  day_upi_max_lmt: string;
+  per_upi_txn_lmt: string;
   upi_vpa: string;
-  gstn: string;
 
   // HDFC - Cards
   hdfc_sl_no: string;
   tid_type: string;
   no_of_tid: string;
   tid_req: string;
-  business_age: string;
+  ref_tid: string;
   pg_setup_type: string;
   hdfc_promo: string;
-  ref_tid: string;
 
   // HDFC - UPI
   entity_mid: string;
@@ -87,31 +135,6 @@ export interface PGFormData {
   modify_flag: string;
   upi_txn_type: string;
 
-  // Atom - Contact Field
-  first_name: string;
-  last_name: string;
-
-  // Atom - Account Field Details
-  phone_no: string;
-  merchant_zone: string;
-  business_address_registered: string;
-  city: string;
-  state: string;
-  country: string;
-  industry: string;
-  sub_industry: string;
-  business_segment: string;
-  affl_cert_atom: string;
-  personal_pan: string;
-  personal_pin: string;
-  personal_street1: string;
-  personal_street2: string;
-  ae_contact: string;
-  chargeback_contact: string;
-  finance_contact: string;
-  product_support_contact: string;
-  setup_contact: string;
-
   // Atom - Opportunities Field Details
   pg_modes: string[];
   atom_settlement_type: string;
@@ -120,11 +143,6 @@ export interface PGFormData {
   integration_kit: string;
   atom_integration_type: string;
   atom_pre_integration: string;
-  nodal_bank: string;
-  nodal_branch_code: string;
-  nodal_branch_name: string;
-  nodal_account_number: string;
-  nodal_ifsc: string;
   hdfc_prod_id_name: string;
   hdfc_domain_check: string;
   atom_multi_status: string;
@@ -201,42 +219,90 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     technicalContactEmail: '',
     technicalContactPhone: '',
 
-    // Basic Details
+    // Nodal Account Details
     nodal_account_name: 'Open Financial Technologies Private Limited',
+    nodal_bank: 'YES Bank',
+    nodal_branch_code: '198',
+    nodal_branch_name: 'Bangalore 3 (Kormangala)',
+    nodal_account_number: '19861100000013',
+    nodal_ifsc: 'YESB0000198',
     submission_date: new Date().toISOString().split('T')[0],
+
+    // User Details
+    first_name: '',
+    last_name: '',
+    full_name: '',
+    email_id: '',
+    mobile_no: '',
+    phone_no: '',
+    dob: '',
+    personal_pan: '',
+    personal_street1: '',
+    personal_street2: '',
+    personal_city: '',
+    personal_pin: '',
+
+    // Business Details
     business_name: '',
     business_name_dba: '',
+    business_type: '',
     incorporation_date: '',
-    website: '',
-    full_name: '',
-    mobile_no: '',
-    email_id: '',
-    dob: '',
+    merchant_zone: '',
+    ann_business_turnover: '',
+    business_address_registered: '',
+    city_registered: '',
+    state_registered: '',
+    country_registered: '',
+    pin_code_registered: '',
     business_address_operational: '',
+    city_operational: '',
+    state_operational: '',
+    country_operational: '',
+    pin_code_operational: '',
+    industry: '',
+    sub_industry: '',
+    business_segment: '',
+    business_age: '',
+    business_pan: '',
+    gstn: '',
     mcc: '',
+    affl_cert_atom: '',
+    pg_use_case: '',
+
+    // Website Details
+    website: '',
     about_url: '',
     contact_us_url: '',
     refund_policy_url: '',
     privacy_policy_url: '',
     terms_url: '',
-    ann_business_turnover: '',
+    check_out_url: '',
+    additional_url: '',
+
+    // POC Details
+    ae_contact: '',
+    chargeback_contact: '',
+    finance_contact: '',
+    product_support_contact: '',
+    verification_contact: '',
+
+    // Requested Limits
+    mon_turnover: '',
     mon_card_turnover: '',
     day_txn_no: '',
-    pg_use_case: '',
-    business_pan: '',
-    business_type: '',
+    day_upi_txn_no: '',
+    day_upi_max_lmt: '',
+    per_upi_txn_lmt: '',
     upi_vpa: '',
-    gstn: '',
 
     // HDFC - Cards
     hdfc_sl_no: '',
     tid_type: 'WEB TID',
     no_of_tid: '2 ( Web TID -1 , UPI TID -1)',
     tid_req: 'Web TID (1), UPI TID (1)',
-    business_age: '',
+    ref_tid: '',
     pg_setup_type: '',
     hdfc_promo: '',
-    ref_tid: '',
 
     // HDFC - UPI
     entity_mid: 'HDFC000029453618',
@@ -249,31 +315,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     modify_flag: 'A',
     upi_txn_type: '',
 
-    // Atom - Contact Field
-    first_name: '',
-    last_name: '',
-
-    // Atom - Account Field Details
-    phone_no: '',
-    merchant_zone: '',
-    business_address_registered: '',
-    city: '',
-    state: '',
-    country: '',
-    industry: '',
-    sub_industry: '',
-    business_segment: '',
-    affl_cert_atom: '',
-    personal_pan: '',
-    personal_pin: '',
-    personal_street1: '',
-    personal_street2: '',
-    ae_contact: '',
-    chargeback_contact: '',
-    finance_contact: '',
-    product_support_contact: '',
-    setup_contact: '',
-
     // Atom - Opportunities Field Details
     pg_modes: ['NB', 'CC', 'DC', 'UPI', 'Wallet'],
     atom_settlement_type: '',
@@ -282,11 +323,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     integration_kit: '',
     atom_integration_type: '',
     atom_pre_integration: '',
-    nodal_bank: 'YES Bank',
-    nodal_branch_code: '198',
-    nodal_branch_name: 'Bangalore 3 (Kormangala)',
-    nodal_account_number: '19861100000013',
-    nodal_ifsc: 'YESB0000198',
     hdfc_prod_id_name: '',
     hdfc_domain_check: '',
     atom_multi_status: '',
@@ -295,6 +331,8 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     atom_min_ticket_size: '',
     atom_max_ticket_size: '',
     pricing_details: '',
+
+    // New fields
     alternate_business_name: '',
     ...safeInitialData,
   });
@@ -466,7 +504,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
             <SelectTrigger className="bg-white text-black">
-              <SelectValue placeholder="Select business type" />
+              <SelectValue placeholder="Select Business Type" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="Individual" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Individual</SelectItem>
@@ -713,6 +751,29 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
         </div>
       );
     }
+
+    // Special case for business_segment: render as a dropdown
+    if (itemName === 'business_segment') {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger className="bg-white text-black">
+              <SelectValue placeholder="Select Business Segment" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="B2B" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">B2B</SelectItem>
+              <SelectItem value="B2C" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">B2C</SelectItem>
+              <SelectItem value="Other" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Other</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+
     return (
       <div className="space-y-2">
         <Label htmlFor={itemName}>{displayName}</Label>
@@ -797,7 +858,10 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                     <div>{renderField('personal_street1')}</div>
                     <div>{renderField('personal_street2')}</div>
                   </div>
-                  <div className="col-span-full">{renderField('personal_pin')}</div>
+                  <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>{renderField('personal_city')}</div>
+                    <div>{renderField('personal_pin')}</div>
+                  </div>
                 </div>
               </div>
             </AccordionContent>
@@ -858,11 +922,11 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                   <div>{renderField('industry')}</div>
                   <div>{renderField('sub_industry')}</div>
                   <div>{renderField('business_segment')}</div>
-                  <div>{renderField('affl_cert_atom')}</div>
+                  <div>{renderField('business_age', 'text', true)}</div>
                   <div>{renderField('business_pan')}</div>
                   <div>{renderField('gstn')}</div>
-                  <div>{renderField('business_age', 'text', true)}</div>
                   <div>{renderField('mcc')}</div>
+                  <div>{renderField('affl_cert_atom')}</div>
                   <div className="col-span-full">{renderField('pg_use_case', 'textarea')}</div>
                 </div>
               </div>
@@ -936,11 +1000,13 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             <AccordionContent>
               <div className="px-6 pb-6 mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>{renderField('mon_turnover')}</div>
                   <div>{renderField('mon_card_turnover')}</div>
                   <div>{renderField('day_txn_no')}</div>
                   <div>{renderField('day_upi_txn_no')}</div>
                   <div>{renderField('day_upi_max_lmt')}</div>
                   <div>{renderField('per_upi_txn_lmt')}</div>
+                  <div>{renderField('upi_vpa')}</div>
                 </div>
               </div>
             </AccordionContent>
