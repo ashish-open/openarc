@@ -306,41 +306,6 @@ const PaymentGateway: React.FC = () => {
         </Card>
       </div>
 
-      {/* Integration Status Card remains */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Integration Status</CardTitle>
-          <CardDescription>
-            Monitor your payment gateway integration health
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-muted/50">
-              <h3 className="font-medium mb-2">Connection Status</h3>
-              <div className="flex items-center gap-2">
-                <div className={`h-2 w-2 rounded-full ${pgData?.status && pgData.status.toLowerCase() === 'active' ? 'bg-green-500' : 'bg-yellow-500'}`} />
-                <span>{pgData?.status || 'Not Configured'}</span>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-lg bg-muted/50">
-              <h3 className="font-medium mb-2">Last Updated</h3>
-              <p className="text-sm text-muted-foreground">
-                {pgData ? new Date().toLocaleString() : 'Never'}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-lg bg-muted/50">
-              <h3 className="font-medium mb-2">Support</h3>
-              <p className="text-sm text-muted-foreground">
-                Need help with your payment gateway integration? Contact our support team.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Submitted User List Section */}
       <Card className="mt-8">
         <CardHeader>
