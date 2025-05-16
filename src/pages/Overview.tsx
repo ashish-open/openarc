@@ -193,9 +193,12 @@ const Overview: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">OpenArc Overview</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Overview</h1>
+          <p className="text-muted-foreground mt-1">Overview of your platform's performance</p>
+        </div>
         {user?.role === 'super-admin' && (
           <Button onClick={() => setEditMode(!editMode)}>
             {editMode ? 'Save Layout' : 'Customize Dashboard'}

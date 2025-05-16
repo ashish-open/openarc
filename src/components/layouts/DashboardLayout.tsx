@@ -124,7 +124,8 @@ const DashboardLayout: React.FC = () => {
             <SidebarContent className="flex-1">
               <SidebarMenu>
                 {sidebarItems.map((item) => {
-                  const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/');
+                  const isActive = location.pathname === item.path || 
+                    (item.path !== '/' && location.pathname.startsWith(item.path));
                   return (
                     checkUserAccess(item.requiredRole as any) && (
                       <SidebarMenuItem key={item.path} className={`my-1 ${collapsed ? 'flex justify-center' : ''}`}>
@@ -169,7 +170,7 @@ const DashboardLayout: React.FC = () => {
         </Sidebar>
         <div className="flex-1 p-4">
           <Outlet />
-          </div>
+        </div>
       </div>
     </SidebarProvider>
   );

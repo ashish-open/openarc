@@ -19,12 +19,11 @@ import Dashboard from "@/pages/Dashboard";
 import KycDashboard from "@/pages/KycDashboard";
 import RiskDashboard from "@/pages/RiskDashboard";
 import UsersList from "@/pages/UsersList";
-import UserDetails from "@/pages/UserDetails";
-import CreateUser from "@/pages/CreateUser";
 import TicketsDashboard from "@/pages/TicketsDashboard";
 import TransactionsPage from "@/pages/TransactionsPage";
 import SettingsPage from "@/pages/SettingsPage";
 import PaymentGateway from "@/pages/PaymentGateway";
+import PaymentGatewaySubmission from "@/pages/PaymentGatewaySubmission";
 
 const queryClient = new QueryClient();
 
@@ -49,32 +48,31 @@ const App = () => (
               {/* Dashboard (Overview) route */}
               <Route path="/dashboard" element={<Overview />} />
               
-            {/* KYC */}
+              {/* KYC */}
               <Route path="/kyc" element={<KycDashboard />} />
               
-            {/* Users */}
+              {/* Users */}
               <Route path="/users" element={<UsersList />} />
-              <Route path="/users/create" element={<CreateUser />} />
-              <Route path="/users/:userId" element={<UserDetails />} />
               
-            {/* Risk */}
+              {/* Risk */}
               <Route path="/risk" element={<RiskDashboard />} />
               
-            {/* Transactions */}
+              {/* Transactions */}
               <Route path="/transactions" element={<TransactionsPage />} />
               
               {/* Payment Gateway */}
               <Route path="/payment-gateway" element={<PaymentGateway />} />
+              <Route path="/payment-gateway/submission" element={<PaymentGatewaySubmission />} />
               
-            {/* Tickets */}
+              {/* Tickets */}
               <Route path="/tickets" element={<TicketsDashboard />} />
               
-            {/* Settings */}
-            <Route path="/settings" element={
-              <ProtectedRoute requiredRole="admin">
+              {/* Settings */}
+              <Route path="/settings" element={
+                <ProtectedRoute requiredRole="admin">
                   <SettingsPage />
-              </ProtectedRoute>
-            } />
+                </ProtectedRoute>
+              } />
             </Route>
 
             {/* Redirect root to dashboard if authenticated, otherwise to login */}

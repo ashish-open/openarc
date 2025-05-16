@@ -126,23 +126,18 @@ const UsersList: React.FC = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Users</h1>
-        <Button onClick={() => navigate('/users/create')} className="gap-2">
-          <Plus className="h-4 w-4" />
-          Create User
-        </Button>
+        <div>
+          <h1 className="text-2xl font-bold">Users</h1>
+          <p className="text-muted-foreground mt-1">View and manage user accounts</p>
+        </div>
       </div>
 
       <Card>
         <CardHeader>
           <div className="flex flex-col space-y-4">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <CardTitle>All Users</CardTitle>
-                <CardDescription>View and manage user accounts</CardDescription>
-              </div>
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input

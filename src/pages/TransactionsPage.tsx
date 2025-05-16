@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
@@ -70,9 +69,12 @@ const TransactionsPage: React.FC = () => {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Transactions</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Transactions</h1>
+          <p className="text-muted-foreground mt-1">Monitor and review all transactions</p>
+        </div>
         <Button className="flex items-center gap-2" variant="outline">
           <Download className="h-4 w-4" /> Export
         </Button>
@@ -80,14 +82,6 @@ const TransactionsPage: React.FC = () => {
 
       <Card>
         <CardHeader>
-          <div className="flex flex-col md:flex-row justify-between gap-4">
-            <div>
-              <CardTitle>All Transactions</CardTitle>
-              <CardDescription>Monitor and review all transactions</CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
           <div className="flex flex-col md:flex-row gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -133,7 +127,8 @@ const TransactionsPage: React.FC = () => {
               </div>
             </div>
           </div>
-
+        </CardHeader>
+        <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>

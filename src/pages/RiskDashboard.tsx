@@ -56,9 +56,12 @@ const RiskDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">OpenArc Risk Monitoring</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Monitoring</h1>
+          <p className="text-muted-foreground mt-1">Monitor and manage risk levels</p>
+        </div>
       </div>
 
       {/* KPI Summary */}

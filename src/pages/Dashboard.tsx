@@ -26,9 +26,12 @@ const Dashboard: React.FC = () => {
   useRequireAuth('viewer');
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">OpenArc Dashboard</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <p className="text-muted-foreground mt-1">Overview of your platform's performance</p>
+        </div>
       </div>
 
       {/* KPI Summary */}

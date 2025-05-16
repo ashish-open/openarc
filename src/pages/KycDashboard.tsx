@@ -50,10 +50,13 @@ const KycDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<PeriodType>('daily');
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       {/* Header with Date Range Picker */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">OpenArc Analytics</h1>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold">KYC Analytics</h1>
+          <p className="text-muted-foreground mt-1">Monitor and analyze KYC performance metrics</p>
+        </div>
         <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
       </div>
 

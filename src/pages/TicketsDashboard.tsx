@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
@@ -174,9 +173,12 @@ const TicketsDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Support Tickets</h1>
+        <div>
+          <h1 className="text-2xl font-bold">Tickets</h1>
+          <p className="text-muted-foreground mt-1">Manage support tickets and requests</p>
+        </div>
         <Button 
           onClick={refreshTickets} 
           className="flex items-center gap-2"

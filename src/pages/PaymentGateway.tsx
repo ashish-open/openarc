@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { AlertCircle, CheckCircle2, CreditCard, Settings2, ArrowLeft, Pencil, Eye, FileText, Ticket, Edit2, Download, X, Search, ArrowUpDown, Filter } from 'lucide-react';
-import PGDetailsForm, { PGFormData } from '@/components/PGDetailsForm';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -11,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useNavigate } from 'react-router-dom';
 
 interface PartnerConfig {
   id: string;
@@ -80,10 +80,7 @@ const PARTNERS: PartnerConfig[] = [
 ];
 
 const PaymentGateway: React.FC = () => {
-  const [pgData, setPgData] = useState<null | { merchantId: string; businessName: string; status: string }>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedPartners, setSelectedPartners] = useState<string[]>([]);
-  const [partnerConfigs, setPartnerConfigs] = useState<Record<string, Record<string, string>>>({});
+  const navigate = useNavigate();
   const [submittedUsers, setSubmittedUsers] = useState<UserSubmission[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -118,78 +115,6 @@ const PaymentGateway: React.FC = () => {
     }
   ];
 
-  const handlePGSave = (data: PGFormData) => {
-    setPgData({
-      merchantId: data.merchantId,
-      businessName: data.business_name,
-      status: data.status,
-    });
-    setSubmittedUsers(prev => [
-      ...prev,
-      {
-        merchantId: data.merchantId,
-        businessName: data.business_name,
-        companyName: data.companyName || data.business_name,
-        website: data.website || '',
-        status: data.status,
-        technicalContactName: data.technicalContactName,
-        technicalContactEmail: data.technicalContactEmail,
-        technicalContactPhone: data.technicalContactPhone,
-        applicationDate: new Date().toLocaleDateString(),
-        partners: selectedPartners.map(pid => ({
-          id: pid,
-          config: partnerConfigs[pid] || {}
-        })),
-        createdAt: new Date().toLocaleString(),
-        isDraft: true,
-        attachments: mockAttachments
-      }
-    ]);
-    setIsEditing(false);
-  };
-
-  const handlePGSaveAndSend = (data: PGFormData) => {
-    handlePGSave(data);
-    console.log('Creating Freshdesk ticket for PG integration:', { ...data, partnerConfigs });
-  };
-
-  const handlePartnerToggle = (partnerId: string) => {
-    setSelectedPartners(prev => {
-      if (prev.includes(partnerId)) {
-        const newPartners = prev.filter(id => id !== partnerId);
-        const newConfigs = { ...partnerConfigs };
-        delete newConfigs[partnerId];
-        setPartnerConfigs(newConfigs);
-        return newPartners;
-      } else {
-        return [...prev, partnerId];
-      }
-    });
-  };
-
-  const handlePartnerFieldChange = (partnerId: string, fieldId: string, value: string) => {
-    setPartnerConfigs(prev => ({
-      ...prev,
-      [partnerId]: {
-        ...prev[partnerId],
-        [fieldId]: value
-      }
-    }));
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'active':
-        return 'bg-green-500/10 text-green-500';
-      case 'pending':
-        return 'bg-yellow-500/10 text-yellow-500';
-      case 'inactive':
-        return 'bg-red-500/10 text-red-500';
-      default:
-        return 'bg-gray-500/10 text-gray-500';
-    }
-  };
-
   // Filter and sort users
   const filteredAndSortedUsers = React.useMemo(() => {
     let filtered = [...submittedUsers];
@@ -221,52 +146,18 @@ const PaymentGateway: React.FC = () => {
     return filtered;
   }, [submittedUsers, searchQuery, sortOrder, statusFilter]);
 
-  if (isEditing) {
-    return (
-      <div className="container mx-auto py-8 space-y-6">
-        <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsEditing(false)}
-            className="h-8 w-8"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Payment Gateway Configuration</h1>
-            <p className="text-muted-foreground mt-1">
-              {pgData ? 'Update your payment gateway settings' : 'Set up your payment gateway integration'}
-            </p>
-          </div>
-        </div>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="space-y-8">
-              <PGDetailsForm
-                initialData={pgData}
-                onSave={handlePGSave}
-                onSaveAndSend={handlePGSaveAndSend}
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="container mx-auto py-8 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Payment Gateway</h1>
-          <p className="text-muted-foreground mt-1">
-            Configure and manage your payment gateway integration
-          </p>
+          <h1 className="text-2xl font-bold">Payment Gateway</h1>
+          <p className="text-muted-foreground mt-1">Configure and manage your payment gateway integration</p>
         </div>
         <div className="flex items-center gap-4">
-          <Button onClick={() => setIsEditing(true)} className="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-6 py-3 rounded-md shadow">
+          <Button 
+            onClick={() => navigate('/payment-gateway/submission')} 
+            className="bg-purple-700 hover:bg-purple-800 text-white font-semibold px-6 py-3 rounded-md shadow"
+          >
             Create MID Request
           </Button>
         </div>
