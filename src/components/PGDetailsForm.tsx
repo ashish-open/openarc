@@ -151,9 +151,6 @@ export interface PGFormData {
   atom_min_ticket_size: string;
   atom_max_ticket_size: string;
   pricing_details: string;
-
-  // New fields
-  alternate_business_name: string;
 }
 
 const AVAILABLE_PARTNERS = [
@@ -331,9 +328,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     atom_min_ticket_size: '',
     atom_max_ticket_size: '',
     pricing_details: '',
-
-    // New fields
-    alternate_business_name: '',
     ...safeInitialData,
   });
 

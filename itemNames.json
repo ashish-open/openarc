@@ -49,11 +49,11 @@
         { "itemName": "industry", "displayName": "Industry" },
         { "itemName": "sub_industry", "displayName": "Sub Industry" },
         { "itemName": "business_segment", "displayName": "Business Segment" },
-        { "itemName": "affl_cert_atom", "displayName": "Affiliate Certificate" },
+        { "itemName": "business_age", "displayName": "Business Age" },
         { "itemName": "business_pan", "displayName": "Business PAN" },
         { "itemName": "gstn", "displayName": "GSTN" },
-        { "itemName": "business_age", "displayName": "Business Age" },
         { "itemName": "mcc", "displayName": "MCC" },
+        { "itemName": "affl_cert_atom", "displayName": "Affiliate Certificate" },
         { "itemName": "pg_use_case", "displayName": "Use Case" }
       ]
     },
@@ -106,9 +106,9 @@
           { "itemName": "entity_mid", "displayName": "Entity MID" },
           { "itemName": "hdfc_integration_approach", "displayName": "Integration Approach" },
           { "itemName": "hdfc_settlement_type", "displayName": "Settlement Type" },
-          { "itemName": "ext_mid", "displayName": "External MID" },
           { "itemName": "hdfc_upi_whitelist1", "displayName": "UPI Whitelist 1" },
           { "itemName": "hdfc_upi_whitelist2", "displayName": "UPI Whitelist 2" },
+          { "itemName": "ext_mid", "displayName": "External MID" },
           { "itemName": "ext_tid", "displayName": "External TID" },
           { "itemName": "modify_flag", "displayName": "Modify Flag" },
           { "itemName": "upi_txn_type", "displayName": "UPI Transaction Type" }
