@@ -46,7 +46,6 @@
       "Cards": {
         "items": [
           { "itemName": "hdfc_sl_no", "displayName": "Serial Number" },
-          { "itemName": "business_operational_pin", "displayName": "Business Operational PIN" },
           { "itemName": "tid_type", "displayName": "TID Type" },
           { "itemName": "no_of_tid", "displayName": "Number of TIDs" },
           { "itemName": "tid_req", "displayName": "TID Requirement" },
@@ -104,7 +103,7 @@
           { "itemName": "chargeback_contact", "displayName": "Chargeback Contact" },
           { "itemName": "finance_contact", "displayName": "Finance Contact" },
           { "itemName": "product_support_contact", "displayName": "Product Support Contact" },
-          { "itemName": "setup_contact", "displayName": "Setup Contact" }
+          { "itemName": "verification_contact", "displayName": "Verification Contact" }
         ]
       },
       "Opportunities Field Details": {

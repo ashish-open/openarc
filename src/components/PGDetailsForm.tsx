@@ -68,12 +68,9 @@ export interface PGFormData {
 
   // HDFC - Cards
   hdfc_sl_no: string;
-  business_operational_pin: string;
   tid_type: string;
   no_of_tid: string;
   tid_req: string;
-  check_out_url: string;
-  additional_url: string;
   business_age: string;
   pg_setup_type: string;
   hdfc_promo: string;
@@ -83,9 +80,6 @@ export interface PGFormData {
   entity_mid: string;
   hdfc_integration_approach: string;
   hdfc_settlement_type: string;
-  day_upi_txn_no: string;
-  day_upi_max_lmt: string;
-  per_upi_txn_lmt: string;
   hdfc_upi_whitelist1: string;
   hdfc_upi_whitelist2: string;
   ext_mid: string;
@@ -233,12 +227,9 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
 
     // HDFC - Cards
     hdfc_sl_no: '',
-    business_operational_pin: '',
     tid_type: '',
     no_of_tid: '',
     tid_req: '',
-    check_out_url: '',
-    additional_url: '',
     business_age: '',
     pg_setup_type: '',
     hdfc_promo: '',
@@ -248,9 +239,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     entity_mid: '',
     hdfc_integration_approach: '',
     hdfc_settlement_type: '',
-    day_upi_txn_no: '',
-    day_upi_max_lmt: '',
-    per_upi_txn_lmt: '',
     hdfc_upi_whitelist1: '',
     hdfc_upi_whitelist2: '',
     ext_mid: '',
@@ -864,6 +852,9 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>{renderField('mon_card_turnover')}</div>
                   <div>{renderField('day_txn_no')}</div>
+                  <div>{renderField('day_upi_txn_no')}</div>
+                  <div>{renderField('day_upi_max_lmt')}</div>
+                  <div>{renderField('per_upi_txn_lmt')}</div>
                 </div>
               </div>
             </AccordionContent>
@@ -886,6 +877,8 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                   <div>{renderField('refund_policy_url', 'url')}</div>
                   <div>{renderField('privacy_policy_url', 'url')}</div>
                   <div>{renderField('terms_url', 'url')}</div>
+                  <div>{renderField('check_out_url', 'url')}</div>
+                  <div>{renderField('additional_url', 'url')}</div>
                 </div>
               </div>
             </AccordionContent>
@@ -907,7 +900,9 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {itemNames.sections["HDFC"]["Cards"].items.map(item => {
                       // Filter out business_age since it's moved to Business Details
-                      if (item.itemName === 'business_age') {
+                      if (item.itemName === 'business_age' || 
+                          item.itemName === 'check_out_url' || 
+                          item.itemName === 'additional_url') {
                         return null;
                       }
                       return (
@@ -925,7 +920,10 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {itemNames.sections["HDFC"]["UPI"].items.map(item => {
                       // Filter out gstn since it's already in Business Details
-                      if (item.itemName === 'gstn') {
+                      if (item.itemName === 'gstn' || 
+                          item.itemName === 'day_upi_txn_no' || 
+                          item.itemName === 'day_upi_max_lmt' || 
+                          item.itemName === 'per_upi_txn_lmt') {
                         return null;
                       }
                       // Custom display names for whitelist fields
@@ -962,7 +960,8 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                 <div className="mb-8">
                   <h3 className="text-lg font-medium mb-4">Account Field Details</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {itemNames.sections["Atom"]["Account Field Details"].items.filter(item => item.itemName !== 'phone_no' &&
+                    {itemNames.sections["Atom"]["Account Field Details"].items.filter(item => 
+                      item.itemName !== 'phone_no' &&
                       item.itemName !== 'merchant_zone' &&
                       item.itemName !== 'business_address_registered' &&
                       item.itemName !== 'city' &&
@@ -977,7 +976,11 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                       item.itemName !== 'personal_pin' &&
                       item.itemName !== 'personal_street1' &&
                       item.itemName !== 'personal_street2' &&
-                      item.itemName !== 'ae_name'
+                      item.itemName !== 'ae_contact' &&
+                      item.itemName !== 'chargeback_contact' &&
+                      item.itemName !== 'finance_contact' &&
+                      item.itemName !== 'product_support_contact' &&
+                      item.itemName !== 'verification_contact'
                     ).map(item => {
                       // Use textarea for address fields
                       const isTextarea = item.itemName.includes('address');
@@ -1008,6 +1011,36 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                         </div>
                       ))}
                   </div>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </Card>
+
+      {/* POC Details Section */}
+      <Card className="overflow-hidden">
+        <Accordion type="single" collapsible defaultValue="poc-details">
+          <AccordionItem value="poc-details" className="border-0">
+            <AccordionTrigger className="text-2xl font-bold px-6 py-6 text-gray-800 border-b border-gray-200 bg-gray-50">
+              POC Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="px-6 pb-6 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {itemNames.sections["Atom"]["Account Field Details"].items
+                    .filter(item => 
+                      item.itemName === 'ae_contact' ||
+                      item.itemName === 'chargeback_contact' ||
+                      item.itemName === 'finance_contact' ||
+                      item.itemName === 'product_support_contact' ||
+                      item.itemName === 'verification_contact'
+                    )
+                    .map(item => (
+                      <div key={item.itemName}>
+                        {renderField(item.itemName)}
+                      </div>
+                    ))}
                 </div>
               </div>
             </AccordionContent>
