@@ -35,7 +35,7 @@ const PaymentGatewaySubmission: React.FC = () => {
           <ArrowLeft className="h-4 w-4" />
         </Button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Payment Gateway Configuration</h1>
+          <h1 className="text-2xl font-bold">Payment Gateway Configuration</h1>
           <p className="text-muted-foreground mt-1">
             {pgData ? 'Update your payment gateway settings' : 'Set up your payment gateway integration'}
           </p>

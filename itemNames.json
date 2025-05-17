@@ -97,7 +97,7 @@
           { "itemName": "no_of_tid", "displayName": "Number of TIDs" },
           { "itemName": "tid_req", "displayName": "TID Requirement" },
           { "itemName": "ref_tid", "displayName": "Reference TID" },
-          { "itemName": "pg_setup_type", "displayName": "Setup Type" },
+          { "itemName": "hdfc_setup_type", "displayName": "Setup Type" },
           { "itemName": "hdfc_promo", "displayName": "Promo" }
         ]
       },
@@ -147,7 +147,7 @@
       },
       "Opportunities Field Details": {
         "items": [
-          { "itemName": "pg_modes", "displayName": "Modes" },
+          { "itemName": "atom_pg_modes", "displayName": "Payment Modes" },
           { "itemName": "atom_settlement_type", "displayName": "Settlement Type" },
           { "itemName": "surcharge_status", "displayName": "Surcharge Status" },
           { "itemName": "bill_to", "displayName": "Bill To" },
@@ -159,8 +159,8 @@
           { "itemName": "nodal_branch_name", "displayName": "Nodal Branch Name" },
           { "itemName": "nodal_account_number", "displayName": "Nodal Account Number" },
           { "itemName": "nodal_ifsc", "displayName": "Nodal IFSC" },
-          { "itemName": "hdfc_prod_id_name", "displayName": "Product ID Name" },
-          { "itemName": "hdfc_domain_check", "displayName": "Domain Check" },
+          { "itemName": "atom_prod_id_name", "displayName": "Product ID Name" },
+          { "itemName": "atom_domain_check", "displayName": "Domain Check" },
           { "itemName": "atom_multi_status", "displayName": "Multi Status" },
           { "itemName": "website_login_details", "displayName": "Website Login Details" },
           { "itemName": "website_status", "displayName": "Website Status" },

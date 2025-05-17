@@ -121,7 +121,7 @@ export interface PGFormData {
   no_of_tid: string;
   tid_req: string;
   ref_tid: string;
-  pg_setup_type: string;
+  hdfc_setup_type: string;
   hdfc_promo: string;
 
   // HDFC - UPI
@@ -136,15 +136,15 @@ export interface PGFormData {
   upi_txn_type: string;
 
   // Atom - Opportunities Field Details
-  pg_modes: string[];
+  atom_pg_modes: string[];
   atom_settlement_type: string;
   surcharge_status: string;
   bill_to: string;
   integration_kit: string;
   atom_integration_type: string;
   atom_pre_integration: string;
-  hdfc_prod_id_name: string;
-  hdfc_domain_check: string;
+  atom_prod_id_name: string;
+  atom_domain_check: string;
   atom_multi_status: string;
   website_login_details: string;
   website_status: string;
@@ -298,7 +298,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     no_of_tid: '2 ( Web TID -1 , UPI TID -1)',
     tid_req: 'Web TID (1), UPI TID (1)',
     ref_tid: '',
-    pg_setup_type: '',
+    hdfc_setup_type: '',
     hdfc_promo: '',
 
     // HDFC - UPI
@@ -313,15 +313,15 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     upi_txn_type: '',
 
     // Atom - Opportunities Field Details
-    pg_modes: ['NB', 'CC', 'DC', 'UPI', 'Wallet'],
+    atom_pg_modes: ['NB', 'CC', 'DC', 'UPI', 'Wallet'],
     atom_settlement_type: '',
     surcharge_status: 'No',
     bill_to: '',
-    integration_kit: '',
+    integration_kit: 'NA',
     atom_integration_type: '',
     atom_pre_integration: '',
-    hdfc_prod_id_name: '',
-    hdfc_domain_check: '',
+    atom_prod_id_name: '',
+    atom_domain_check: '',
     atom_multi_status: '',
     website_login_details: '',
     website_status: '',
@@ -419,7 +419,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     const displayName = getDisplayName(itemName);
     const value = formData[itemName as keyof PGFormData] || '';
 
-    if (itemName === 'pg_setup_type') {
+    if (itemName === 'hdfc_setup_type') {
       return (
         <div className="space-y-2">
           <Label htmlFor={itemName}>{displayName}</Label>
@@ -427,7 +427,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={value as string}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger>
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select Setup Type" />
             </SelectTrigger>
             <SelectContent>
@@ -447,7 +447,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select nodal account" />
             </SelectTrigger>
             <SelectContent>
@@ -477,7 +477,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select surcharge status" />
             </SelectTrigger>
             <SelectContent>
@@ -497,7 +497,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select Business Type" />
             </SelectTrigger>
             <SelectContent>
@@ -515,8 +515,8 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
         </div>
       );
     }
-    // Special case for pg_modes: render as multi-select dropdown
-    if (itemName === 'pg_modes') {
+    // Special case for atom_pg_modes: render as multi-select dropdown
+    if (itemName === 'atom_pg_modes') {
       const paymentModes = [
         { value: 'NB', label: 'Net Banking' },
         { value: 'CC', label: 'Credit Card' },
@@ -594,8 +594,8 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
         </div>
       );
     }
-    // Special case for hdfc_domain_check: render as a dropdown
-    if (itemName === 'hdfc_domain_check') {
+    // Special case for atom_domain_check: render as a dropdown
+    if (itemName === 'atom_domain_check') {
       return (
         <div className="space-y-2">
           <Label htmlFor={itemName}>{displayName}</Label>
@@ -603,7 +603,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -623,7 +623,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select" />
             </SelectTrigger>
             <SelectContent>
@@ -657,7 +657,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select Industry" />
             </SelectTrigger>
             <SelectContent>
@@ -727,7 +727,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select Sub industry" />
             </SelectTrigger>
             <SelectContent>
@@ -755,13 +755,56 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             value={formData[itemName]}
             onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
           >
-            <SelectTrigger className="bg-white text-black">
+            <SelectTrigger id={itemName} className="bg-white text-black">
               <SelectValue placeholder="Select Business Segment" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="B2B" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">B2B</SelectItem>
               <SelectItem value="B2C" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">B2C</SelectItem>
               <SelectItem value="Other" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Other</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+
+    // Special case for bill_to: render as a dropdown
+    if (itemName === 'bill_to') {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger id={itemName} className="bg-white text-black">
+              <SelectValue placeholder="Select Bill To" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Merchant" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Merchant</SelectItem>
+              <SelectItem value="Reseller" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Reseller</SelectItem>
+              <SelectItem value="Bank" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Bank</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+
+    // Special case for atom_settlement_type: render as a dropdown
+    if (itemName === 'atom_settlement_type') {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger id={itemName} className="bg-white text-black">
+              <SelectValue placeholder="Select Settlement Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Daily" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Daily</SelectItem>
+              <SelectItem value="Monthly" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">Monthly</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -969,7 +1012,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                       item.itemName === 'chargeback_contact' ||
                       item.itemName === 'finance_contact' ||
                       item.itemName === 'product_support_contact' ||
-                      item.itemName === 'setup_contact' ||
                       item.itemName === 'verification_contact'
                     )
                     .map(item => (
@@ -1027,7 +1069,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                       { itemName: 'no_of_tid', displayName: 'No of TID' },
                       { itemName: 'tid_req', displayName: 'TID Req' },
                       { itemName: 'ref_tid', displayName: 'Reference TID' },
-                      { itemName: 'pg_setup_type', displayName: 'Setup Type' },
+                      { itemName: 'hdfc_setup_type', displayName: 'Setup Type' },
                       { itemName: 'hdfc_promo', displayName: 'Promo' }
                     ].map(item => (
                       <div key={item.itemName}>
@@ -1087,14 +1129,14 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
                 <div className="mb-8">
                   <h3 className="text-lg font-medium mb-4">Opportunities Field Details</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Render pg_modes with custom display name */}
+                    {/* Render atom_pg_modes with custom display name */}
                     <div>
-                      {renderField('pg_modes', 'Payment Modes')}
+                      {renderField('atom_pg_modes', 'Payment Modes')}
                     </div>
                     
                     {/* Render other Opportunities fields */}
                     {itemNames.sections["Atom"]["Opportunities Field Details"].items
-                      .filter(item => item.itemName !== 'pg_modes')
+                      .filter(item => item.itemName !== 'atom_pg_modes')
                       .map(item => (
                         <div key={item.itemName}>
                           {renderField(item.itemName)}
