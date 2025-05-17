@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useNavigate } from 'react-router-dom';
+import ViewMerchantForm from '@/components/ViewMerchantForm';
 
 interface PartnerConfig {
   id: string;
@@ -86,6 +87,7 @@ const PaymentGateway: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedMerchant, setSelectedMerchant] = useState<UserSubmission | null>(null);
 
   // Mock attachments data - this will be replaced with actual S3 data later
   const mockAttachments = [
@@ -145,6 +147,48 @@ const PaymentGateway: React.FC = () => {
 
     return filtered;
   }, [submittedUsers, searchQuery, sortOrder, statusFilter]);
+
+  const handleViewMerchant = (merchant: UserSubmission) => {
+    setSelectedMerchant(merchant);
+  };
+
+  const handleSaveMerchant = async (data: any) => {
+    try {
+      // TODO: Implement API call to save merchant data
+      console.log('Saving merchant data:', data);
+      // After successful save, update the list
+      setSubmittedUsers(prev => 
+        prev.map(user => 
+          user.merchantId === data.merchantId ? { ...user, ...data } : user
+        )
+      );
+      setSelectedMerchant(null);
+    } catch (error) {
+      console.error('Error saving merchant data:', error);
+    }
+  };
+
+  if (selectedMerchant) {
+    return (
+      <div className="container mx-auto py-8">
+        <div className="flex items-center gap-4 mb-6">
+          <Button
+            variant="ghost"
+            onClick={() => setSelectedMerchant(null)}
+            className="gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to List
+          </Button>
+        </div>
+        <ViewMerchantForm
+          merchantId={selectedMerchant.merchantId}
+          initialData={selectedMerchant}
+          onSave={handleSaveMerchant}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-8 space-y-6">
@@ -299,7 +343,13 @@ const PaymentGateway: React.FC = () => {
                       <p className="text-sm text-muted-foreground">Application Date: {user.applicationDate}</p>
                     </div>
                     <div className="flex gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8" title="View Details">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8" 
+                        title="View Details"
+                        onClick={() => handleViewMerchant(user)}
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Dialog>

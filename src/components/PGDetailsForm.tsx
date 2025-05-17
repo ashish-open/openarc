@@ -28,6 +28,7 @@ interface PGDetailsFormProps {
   onSave: (data: PGFormData) => void;
   onSaveAndSend: (data: PGFormData) => void;
   initialData?: Partial<PGFormData>;
+  isEditMode?: boolean;
 }
 
 export interface PGFormData {
@@ -35,9 +36,6 @@ export interface PGFormData {
   merchantId: string;
   companyName: string;
   status: string;
-  technicalContactName: string;
-  technicalContactEmail: string;
-  technicalContactPhone: string;
 
   // Nodal Account Details
   nodal_account_name: string;
@@ -205,6 +203,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
   onSave,
   onSaveAndSend,
   initialData,
+  isEditMode,
 }) => {
   const safeInitialData = initialData ?? {};
   const [formData, setFormData] = useState<PGFormData>({
@@ -212,9 +211,6 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     merchantId: '',
     companyName: '',
     status: 'pending',
-    technicalContactName: '',
-    technicalContactEmail: '',
-    technicalContactPhone: '',
 
     // Nodal Account Details
     nodal_account_name: 'Open Financial Technologies Private Limited',
@@ -231,7 +227,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     full_name: '',
     email_id: '',
     mobile_no: '',
-    phone_no: '',
+    phone_no: 'NA',
     dob: '',
     personal_pan: '',
     personal_street1: '',
@@ -297,7 +293,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     tid_type: 'WEB TID',
     no_of_tid: '2 ( Web TID -1 , UPI TID -1)',
     tid_req: 'Web TID (1), UPI TID (1)',
-    ref_tid: '',
+    ref_tid: 'NA',
     hdfc_setup_type: '',
     hdfc_promo: '',
 
@@ -320,7 +316,7 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
     integration_kit: 'NA',
     atom_integration_type: '',
     atom_pre_integration: '',
-    atom_prod_id_name: '',
+    atom_prod_id_name: 'NA',
     atom_domain_check: '',
     atom_multi_status: '',
     website_login_details: '',
@@ -768,6 +764,29 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
       );
     }
 
+    // Special case for merchant_zone: render as a dropdown
+    if (itemName === 'merchant_zone') {
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={itemName}>{displayName}</Label>
+          <Select
+            value={formData[itemName]}
+            onValueChange={(value) => handleChange(itemName as keyof PGFormData, value)}
+          >
+            <SelectTrigger id={itemName} className="bg-white text-black">
+              <SelectValue placeholder="Select Merchant Zone" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="North" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">North</SelectItem>
+              <SelectItem value="South" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">South</SelectItem>
+              <SelectItem value="East" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">East</SelectItem>
+              <SelectItem value="West" className="data-[highlighted]:bg-primary data-[highlighted]:text-white">West</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      );
+    }
+
     // Special case for bill_to: render as a dropdown
     if (itemName === 'bill_to') {
       return (
@@ -1006,19 +1025,11 @@ const PGDetailsForm: React.FC<PGDetailsFormProps> = ({
             <AccordionContent>
               <div className="px-6 pb-6 mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {itemNames.sections["Atom"]["Account Field Details"].items
-                    .filter(item => 
-                      item.itemName === 'ae_contact' ||
-                      item.itemName === 'chargeback_contact' ||
-                      item.itemName === 'finance_contact' ||
-                      item.itemName === 'product_support_contact' ||
-                      item.itemName === 'verification_contact'
-                    )
-                    .map(item => (
-                      <div key={item.itemName}>
-                        {renderField(item.itemName)}
-                      </div>
-                    ))}
+                  {itemNames.sections["POC Details"].items.map(item => (
+                    <div key={item.itemName}>
+                      {renderField(item.itemName)}
+                    </div>
+                  ))}
                 </div>
               </div>
             </AccordionContent>
